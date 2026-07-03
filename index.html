@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>법학 트리노트</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fbfaf7; --fg:#23221e; --muted:#9b968a; --line:#e8e5dc;
+  --accent:#3564c4; --star:#d29d00; --mark:#ffe89e; --danger:#c0392b;
+  --rowhover:#f1efe8;
+  --c-issue:#c14e4e; --c-req:#3a6fc4; --c-effect:#2f9e63; --c-law:#0e8f96;
+  --c-case:#8a5fc9; --c-theory:#b8860b; --c-concl:#6b675e;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#15171c; --fg:#e6e6e2; --muted:#767c88; --line:#2a2f39;
+    --accent:#7aa2f7; --star:#d9b13b; --mark:#5a4d1e; --danger:#e06c5f;
+    --rowhover:#1e222b;
+    --c-issue:#e07a7a; --c-req:#7aa2f7; --c-effect:#5cc490; --c-law:#4fc3cb;
+    --c-case:#b28ae8; --c-theory:#d9b13b; --c-concl:#a9a495;
+  }
+}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--fg);
+  font:15px/1.6 Pretendard,-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+}
+header{position:sticky; top:0; z-index:10; background:var(--bg); border-bottom:1px solid var(--line)}
+.bar{
+  max-width:860px; margin:0 auto; padding:10px 14px;
+  display:flex; gap:6px; align-items:center; flex-wrap:wrap;
+}
+#title{
+  font-size:17px; font-weight:700; outline:none; flex:1 1 110px; min-width:90px;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+#title[contenteditable="true"]:focus{border-bottom:1px dashed var(--muted)}
+#search{
+  flex:0 1 170px; min-width:100px; padding:5px 10px;
+  border:1px solid var(--line); border-radius:8px;
+  background:transparent; color:var(--fg); font-size:14px; outline:none;
+}
+#search:focus{border-color:var(--accent)}
+button.icon{
+  border:1px solid var(--line); background:transparent; color:var(--fg);
+  border-radius:8px; padding:5px 9px; font-size:14px; cursor:pointer; line-height:1; height:30px;
+}
+button.icon:hover{background:var(--rowhover)}
+button.icon.on{border-color:var(--accent); color:var(--accent)}
+#status{font-size:12px; color:var(--muted); min-width:44px; text-align:right}
+main{max-width:860px; margin:0 auto; padding:16px 14px 45vh}
+
+/* ---- tree ---- */
+.node{position:relative}
+.kids{margin-left:9px; padding-left:14px; border-left:1px solid var(--line)}
+.row{display:flex; align-items:flex-start; gap:5px; padding:2px 4px; border-radius:6px}
+.row.d0{font-weight:700; font-size:16px; margin-top:10px}
+.twisty{
+  flex:0 0 18px; text-align:center; color:var(--muted);
+  font-size:11px; line-height:24px; user-select:none; cursor:default;
+}
+.twisty.has{cursor:pointer; color:var(--fg)}
+.badge{
+  flex:0 0 auto; font-size:11px; font-weight:600; line-height:17px;
+  margin-top:3px; padding:0 5px; border-radius:4px; user-select:none;
+  color:var(--bc); background:color-mix(in srgb, var(--bc) 14%, transparent);
+}
+body:not(.view) .badge{cursor:pointer}
+.starmark{color:var(--star); font-size:13px; line-height:24px; flex:0 0 auto}
+.text{
+  flex:1 1 auto; min-width:0; outline:none; padding:1px 4px; border-radius:4px;
+  overflow-wrap:break-word; word-break:break-word;
+}
+.text:empty::before{content:'…'; color:var(--muted)}
+.text[contenteditable]:focus{background:var(--rowhover)}
+mark{background:var(--mark); color:inherit; border-radius:3px; padding:0 1px}
+.bodywrap{padding:0 4px 3px 27px}
+.body{
+  font-size:13.5px; line-height:1.65; color:color-mix(in srgb, var(--fg) 78%, var(--muted));
+  outline:none; padding:2px 6px; border-left:2px solid var(--line); border-radius:0 4px 4px 0;
+  white-space:pre-wrap; overflow-wrap:break-word; word-break:break-word; font-weight:400;
+}
+.body:empty::before{content:'서술(답안 문장)을 입력…'; color:var(--muted)}
+.body[contenteditable]:focus{background:var(--rowhover)}
+.tools{flex:0 0 auto; display:none; gap:1px; align-items:center}
+.row:hover .tools, .row:focus-within .tools{display:inline-flex}
+.tools button{
+  border:none; background:transparent; color:var(--muted); cursor:pointer;
+  font-size:12px; padding:2px 4px; border-radius:4px; line-height:20px;
+}
+.tools button:hover{background:var(--rowhover); color:var(--fg)}
+.tools button.del:hover{color:var(--danger)}
+.viewAns{
+  flex:0 0 auto; border:none; background:transparent; cursor:pointer;
+  font-size:12px; line-height:24px; padding:0 4px; opacity:.35; color:var(--fg);
+}
+.viewAns:hover{opacity:1}
+#addRoot{
+  display:block; margin-top:14px; border:none; background:transparent;
+  color:var(--muted); cursor:pointer; font-size:14px; padding:4px 8px; border-radius:6px;
+}
+#addRoot:hover{background:var(--rowhover); color:var(--fg)}
+#hint{margin-top:26px; font-size:12px; color:var(--muted)}
+#empty{color:var(--muted); padding:30px 0; text-align:center}
+
+/* ---- view mode (study mode) ---- */
+body.view .tools, body.view #addRoot, body.view #hint{display:none}
+body.view .row.tappable{cursor:pointer}
+body.view .row.tappable:active{background:var(--rowhover)}
+
+/* ---- recall (암기) mode ---- */
+body.recall .body{filter:blur(4px); cursor:pointer; user-select:none}
+body.recall .body.revealed{filter:none; cursor:auto; user-select:auto}
+
+@media (max-width:700px){
+  body{font-size:16px}
+  .body{font-size:14.5px}
+  .row{padding:5px 4px}
+  .twisty{line-height:26px}
+  #modeBtn,#exportBtn,#importBtn{display:none}
+  main{padding-bottom:30vh}
+}
+
+/* ---- dialogs ---- */
+dialog{
+  margin:auto; border:1px solid var(--line); border-radius:12px;
+  background:var(--bg); color:var(--fg); padding:20px; max-width:460px; width:92%;
+}
+dialog::backdrop{background:rgba(0,0,0,.4)}
+dialog h3{font-size:16px; margin-bottom:6px}
+dialog p.hint{font-size:13px; color:var(--muted); margin-bottom:12px}
+dialog label{display:block; font-size:13px; margin-bottom:10px}
+dialog input{
+  width:100%; margin-top:3px; padding:7px 10px;
+  border:1px solid var(--line); border-radius:8px;
+  background:transparent; color:var(--fg); font-size:14px; outline:none;
+}
+dialog input:focus{border-color:var(--accent)}
+.dlgBtns{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap}
+.dlgBtns button{
+  padding:7px 14px; border-radius:8px; border:1px solid var(--line);
+  background:transparent; color:var(--fg); cursor:pointer; font-size:14px;
+}
+.dlgBtns button.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+#syncMsg{font-size:13px; margin-top:12px; color:var(--accent); min-height:1.2em}
+#ansDlg{max-width:640px}
+#ansPre{
+  font:14px/1.7 inherit; font-family:inherit; white-space:pre-wrap; word-break:break-word;
+  max-height:60vh; overflow:auto; border:1px solid var(--line); border-radius:8px;
+  padding:14px; margin-top:8px; background:color-mix(in srgb, var(--rowhover) 55%, transparent);
+}
+
+/* ---- type menu ---- */
+#typeMenu{
+  position:fixed; z-index:30; display:none; flex-direction:column; gap:2px;
+  background:var(--bg); border:1px solid var(--line); border-radius:10px;
+  padding:6px; box-shadow:0 6px 24px rgba(0,0,0,.15);
+}
+#typeMenu button{
+  display:flex; align-items:center; gap:8px; border:none; background:transparent;
+  color:var(--fg); cursor:pointer; font-size:13px; padding:5px 10px; border-radius:6px; text-align:left;
+}
+#typeMenu button:hover{background:var(--rowhover)}
+#typeMenu .badge{margin-top:0}
+
+#toast{
+  position:fixed; left:50%; bottom:26px; transform:translateX(-50%);
+  background:var(--fg); color:var(--bg); font-size:13px;
+  padding:8px 16px; border-radius:20px; opacity:0; transition:opacity .25s;
+  pointer-events:none; z-index:50; white-space:nowrap;
+}
+#toast.show{opacity:.92}
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div id="title"></div>
+    <input id="search" type="search" placeholder="검색 (제목·서술)">
+    <button class="icon" id="collapseBtn" title="모두 접기">⊟</button>
+    <button class="icon" id="expandBtn" title="모두 펼치기">⊞</button>
+    <button class="icon" id="recallBtn" title="암기 모드 — 서술을 가리고 목차만 보기">🧠</button>
+    <button class="icon" id="modeBtn" title="편집/보기 전환"></button>
+    <button class="icon" id="syncBtn" title="기기 간 동기화">⇅</button>
+    <button class="icon" id="exportBtn" title="JSON 내보내기">⬇</button>
+    <button class="icon" id="importBtn" title="JSON 가져오기">⬆</button>
+    <span id="status"></span>
+  </div>
+</header>
+<main>
+  <div id="tree"></div>
+  <button id="addRoot">＋ 항목 추가</button>
+  <p id="hint">Enter 새 항목 · Tab 들여쓰기 · Shift+Tab 내어쓰기 · Alt+↑↓ 이동 &nbsp;|&nbsp; 마우스 오버: ＋하위 📝서술 ◇유형 ★중요 📄답안 조립 ✕삭제</p>
+</main>
+
+<dialog id="syncDlg">
+  <h3>기기 간 동기화 (GitHub Gist)</h3>
+  <p class="hint">PC에서 편집 후 <b>업로드</b>, 휴대폰에서는 같은 Gist ID를 넣고 <b>가져오기</b>만 하면 됩니다. 휴대폰에는 토큰이 필요 없습니다. (토큰: github.com → Settings → Developer settings → Personal access tokens, gist 권한)</p>
+  <label>GitHub 토큰 (업로드용)
+    <input id="tokenIn" type="password" placeholder="ghp_… / github_pat_…" autocomplete="off">
+  </label>
+  <label>Gist ID (첫 업로드 시 자동 생성)
+    <input id="gistIn" placeholder="예: a1b2c3d4…" autocomplete="off">
+  </label>
+  <div class="dlgBtns">
+    <button id="pushBtn" class="primary">⬆ 업로드 (PC)</button>
+    <button id="pullBtn">⬇ 가져오기</button>
+    <button id="closeDlg">닫기</button>
+  </div>
+  <p id="syncMsg"></p>
+</dialog>
+
+<dialog id="ansDlg">
+  <h3 id="ansTitle"></h3>
+  <p class="hint">이 노드부터 DFS 순서로 조립한 답안 초안입니다.</p>
+  <pre id="ansPre"></pre>
+  <div class="dlgBtns">
+    <button id="copyAns" class="primary">복사</button>
+    <button id="closeAns">닫기</button>
+  </div>
+</dialog>
+
+<div id="typeMenu"></div>
+<input type="file" id="fileIn" accept=".json,application/json" hidden>
+<div id="toast"></div>
+
+<script>
+'use strict';
+const $ = s => document.querySelector(s);
+const LS_DOC = 'lawtree.doc', LS_CFG = 'lawtree.cfg';
+const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+/* ---------- node types ---------- */
+const TYPES = {
+  plain:  { label: '일반',  badge: '',  cvar: '' },
+  issue:  { label: '쟁점',  badge: '쟁', cvar: '--c-issue' },
+  req:    { label: '요건',  badge: '요', cvar: '--c-req' },
+  effect: { label: '효과',  badge: '효', cvar: '--c-effect' },
+  law:    { label: '조문',  badge: '§',  cvar: '--c-law' },
+  case:   { label: '판례',  badge: '判', cvar: '--c-case' },
+  theory: { label: '학설',  badge: '學', cvar: '--c-theory' },
+  concl:  { label: '결론',  badge: '結', cvar: '--c-concl' },
+};
+
+function mkNode(text, type, body, children){
+  return { id: uid(), text: text || '', type: type || 'plain', body: body || '',
+           star: false, collapsed: false, children: children || [] };
+}
+function sampleDoc(){
+  return { title: '법학 노트', updatedAt: Date.now(), tree: [
+    mkNode('민법', 'plain', '', [
+      mkNode('착오에 의한 의사표시 (제109조)', 'issue',
+        '甲이 착오를 이유로 의사표시를 취소할 수 있는지가 문제된다.', [
+        mkNode('의의 및 문제의 소재', 'plain',
+          '착오란 표의자의 인식과 객관적 사실이 일치하지 않는 것을 말한다. 사안에서는 甲의 착오가 제109조의 요건을 충족하는지 문제된다.'),
+        mkNode('요건', 'req', '', [
+          mkNode('법률행위 내용의 착오일 것', 'req',
+            '동기의 착오가 문제되는 경우, 판례는 동기가 상대방에게 표시되어 해석상 법률행위의 내용으로 된 때에는 내용의 착오로서 취소할 수 있다고 본다.', [
+            mkNode('동기의 착오 판례 법리', 'case',
+              '동기의 착오는 그 동기가 상대방에게 표시되어 법률행위의 내용이 된 경우에 한하여 취소할 수 있다.'),
+          ]),
+          mkNode('중요부분의 착오일 것', 'req',
+            '표의자가 착오가 없었더라면 그러한 의사표시를 하지 않았을 것이고(주관적 현저성), 일반인이라도 하지 않았을 것(객관적 현저성)이어야 한다.'),
+          mkNode('표의자에게 중대한 과실이 없을 것', 'req',
+            '중대한 과실이란 표의자의 직업·행위의 종류 등에 비추어 보통 요구되는 주의를 현저히 결여한 것을 말하고, 그 증명책임은 상대방에게 있다.', [
+            mkNode('제109조 제1항 단서', 'law', ''),
+          ]),
+        ]),
+        mkNode('효과', 'effect',
+          '요건이 충족되면 표의자는 의사표시를 취소할 수 있고, 취소된 법률행위는 처음부터 무효인 것으로 본다(제141조). 다만 취소는 선의의 제3자에게 대항하지 못한다(제109조 제2항).'),
+        mkNode('사안의 해결', 'concl',
+          '사안에서 甲의 착오는 법률행위 내용의 중요부분에 관한 것이고 중대한 과실도 인정되지 않으므로, 甲은 매매계약을 취소할 수 있다.'),
+      ]),
+    ]),
+    mkNode('형법', 'plain', '', [
+      mkNode('범죄의 성립요건', 'plain', '', [
+        mkNode('구성요건해당성', 'req', ''),
+        mkNode('위법성', 'req', ''),
+        mkNode('책임', 'req', ''),
+      ]),
+    ]),
+  ]};
+}
+
+function normalize(list){
+  for(const nd of list){
+    if(typeof nd.body !== 'string') nd.body = '';
+    if(!TYPES[nd.type]) nd.type = 'plain';
+    if(!Array.isArray(nd.children)) nd.children = [];
+    normalize(nd.children);
+  }
+}
+function loadDoc(){
+  try{
+    const d = JSON.parse(localStorage.getItem(LS_DOC));
+    if(d && Array.isArray(d.tree)){ normalize(d.tree); return d; }
+  }catch(e){}
+  return null;
+}
+let doc = loadDoc() || sampleDoc();
+let cfg = {};
+try{ cfg = JSON.parse(localStorage.getItem(LS_CFG)) || {}; }catch(e){}
+const saveCfg = () => localStorage.setItem(LS_CFG, JSON.stringify(cfg));
+
+const mobileMq = matchMedia('(max-width: 700px)');
+let editMode = !mobileMq.matches && cfg.editMode !== false;
+let recall = false;
+let query = '';
+const bodyOpen = new Set();      // 서술칸을 강제로 열어둔 노드
+const revealed = new Set();      // 암기 모드에서 확인한 노드
+
+const treeEl = $('#tree'), titleEl = $('#title'), statusEl = $('#status');
+
+/* ---------- tree operations ---------- */
+function locate(id, list, parent){
+  list = list || doc.tree;
+  for(let i = 0; i < list.length; i++){
+    const nd = list[i];
+    if(nd.id === id) return { node: nd, list, index: i, parent: parent || null };
+    const r = locate(id, nd.children, nd);
+    if(r) return r;
+  }
+  return null;
+}
+function commit(focusId){ scheduleSave(); render(focusId); }
+function addSibling(id){
+  const { list, index } = locate(id);
+  const nd = mkNode('');
+  list.splice(index + 1, 0, nd);
+  commit(nd.id);
+}
+function addChild(id){
+  const { node } = locate(id);
+  const nd = mkNode('');
+  node.children.push(nd);
+  node.collapsed = false;
+  commit(nd.id);
+}
+function addRootNode(){
+  const nd = mkNode('');
+  doc.tree.push(nd);
+  commit(nd.id);
+}
+function indentNode(id){
+  const { list, index, node } = locate(id);
+  if(index === 0) return;
+  const prev = list[index - 1];
+  list.splice(index, 1);
+  prev.children.push(node);
+  prev.collapsed = false;
+  commit(id);
+}
+function outdentNode(id){
+  const loc = locate(id);
+  if(!loc.parent) return;
+  const pl = locate(loc.parent.id);
+  loc.list.splice(loc.index, 1);
+  pl.list.splice(pl.index + 1, 0, loc.node);
+  commit(id);
+}
+function moveNode(id, dir){
+  const { list, index } = locate(id);
+  const j = index + dir;
+  if(j < 0 || j >= list.length) return;
+  [list[index], list[j]] = [list[j], list[index]];
+  commit(id);
+}
+function removeNode(id, focusPrev){
+  const loc = locate(id);
+  if(loc.node.children.length && !confirm('하위 항목까지 함께 삭제됩니다. 삭제할까요?')) return;
+  let focusId = null;
+  if(focusPrev){
+    const els = [...treeEl.querySelectorAll('.text')];
+    const i = els.findIndex(el => el.dataset.id === id);
+    if(i > 0) focusId = els[i - 1].dataset.id;
+  }
+  loc.list.splice(loc.index, 1);
+  commit(focusId);
+}
+function toggleCollapse(id){
+  const { node } = locate(id);
+  node.collapsed = !node.collapsed;
+  commit();
+}
+function toggleStar(id){
+  const { node } = locate(id);
+  node.star = !node.star;
+  commit();
+}
+function setAllCollapsed(collapsed){
+  (function walk(list){
+    for(const nd of list){
+      if(nd.children.length){ nd.collapsed = collapsed; walk(nd.children); }
+    }
+  })(doc.tree);
+  commit();
+}
+
+/* ---------- 답안 조립 (DFS) ---------- */
+const ROMAN = ['Ⅰ','Ⅱ','Ⅲ','Ⅳ','Ⅴ','Ⅵ','Ⅶ','Ⅷ','Ⅸ','Ⅹ','Ⅺ','Ⅻ'];
+const GANA  = ['가','나','다','라','마','바','사','아','자','차','카','타'];
+const CIRC  = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫'];
+function numFor(depth, i){
+  switch(depth){
+    case 0: return (ROMAN[i] || (i+1)) + '.';
+    case 1: return (i+1) + '.';
+    case 2: return '(' + (i+1) + ')';
+    case 3: return (GANA[i] || (i+1)) + '.';
+    case 4: return CIRC[i] || (i+1) + ')';
+    default: return (i+1) + ')';
+  }
+}
+function buildAnswer(node){
+  const lines = ['【' + node.text + '】'];
+  if(node.body) lines.push(node.body);
+  (function walk(list, depth){
+    const pad = '  '.repeat(depth);
+    let idx = 0;
+    for(const nd of list){
+      // 조문·판례·학설 잎 노드는 목차 번호 없이 근거로 붙인다
+      if((nd.type === 'law' || nd.type === 'case' || nd.type === 'theory') && !nd.children.length){
+        const tag = nd.type === 'law' ? '§' : nd.type === 'case' ? '判:' : '學:';
+        lines.push(pad + '   ' + tag + ' ' + nd.text + (nd.body ? ' — ' + nd.body : ''));
+        continue;
+      }
+      lines.push('');
+      lines.push(pad + numFor(depth, idx++) + ' ' + nd.text);
+      if(nd.body) lines.push(pad + '   ' + nd.body);
+      walk(nd.children, depth + 1);
+    }
+  })(node.children, 0);
+  return lines.join('\n');
+}
+function openAnswer(id){
+  const { node } = locate(id);
+  $('#ansTitle').textContent = node.text + ' — 답안 구성';
+  $('#ansPre').textContent = buildAnswer(node);
+  $('#ansDlg').showModal();
+}
+$('#closeAns').onclick = () => $('#ansDlg').close();
+$('#copyAns').onclick = async () => {
+  const t = $('#ansPre').textContent;
+  try{
+    await navigator.clipboard.writeText(t);
+  }catch(e){
+    const ta = document.createElement('textarea');
+    ta.value = t; document.body.append(ta); ta.select();
+    document.execCommand('copy'); ta.remove();
+  }
+  toast('복사됨');
+};
+
+/* ---------- rendering ---------- */
+function computeMatches(){
+  const q = query.trim().toLowerCase();
+  if(!q) return null;
+  const keep = new Set();
+  (function walk(list, anc){
+    for(const nd of list){
+      if(nd.text.toLowerCase().includes(q) || nd.body.toLowerCase().includes(q)){
+        keep.add(nd.id);
+        for(const a of anc) keep.add(a);
+      }
+      walk(nd.children, anc.concat(nd.id));
+    }
+  })(doc.tree, []);
+  return keep;
+}
+const escHtml = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function highlight(text, q){
+  const re = new RegExp('(' + q.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  return text.split(re).map((part, i) => i % 2 ? '<mark>' + escHtml(part) + '</mark>' : escHtml(part)).join('');
+}
+function badgeEl(type){
+  const t = TYPES[type];
+  const b = document.createElement('span');
+  b.className = 'badge';
+  b.textContent = t.badge;
+  b.style.setProperty('--bc', 'var(' + t.cvar + ')');
+  return b;
+}
+function nodeEl(nd, depth, keep){
+  if(keep && !keep.has(nd.id)) return null;
+  const searching = !!keep;
+  const hasKids = nd.children.length > 0;
+  const wrap = document.createElement('div'); wrap.className = 'node';
+  const row = document.createElement('div'); row.className = 'row' + (depth === 0 ? ' d0' : '');
+
+  const tw = document.createElement('span');
+  tw.className = 'twisty' + (hasKids ? ' has' : '');
+  tw.textContent = hasKids ? (nd.collapsed && !searching ? '▸' : '▾') : '·';
+  if(hasKids) tw.onclick = e => { e.stopPropagation(); toggleCollapse(nd.id); };
+  row.append(tw);
+
+  if(nd.type !== 'plain'){
+    const b = badgeEl(nd.type);
+    b.title = TYPES[nd.type].label;
+    if(editMode && !searching) b.onclick = e => { e.stopPropagation(); openTypeMenu(nd.id, b); };
+    row.append(b);
+  }
+  if(nd.star){
+    const s = document.createElement('span');
+    s.className = 'starmark'; s.textContent = '★';
+    row.append(s);
+  }
+
+  const txt = document.createElement('div');
+  txt.className = 'text'; txt.dataset.id = nd.id;
+  if(searching) txt.innerHTML = highlight(nd.text, query);
+  else txt.textContent = nd.text;
+  if(editMode && !searching){
+    txt.contentEditable = 'plaintext-only';
+    txt.spellcheck = false;
+    txt.oninput = () => { nd.text = txt.innerText.replace(/\n/g, ' '); scheduleSave(); };
+    txt.onkeydown = e => onTextKey(e, nd);
+  }
+  row.append(txt);
+
+  if(editMode && !searching){
+    const tools = document.createElement('span'); tools.className = 'tools';
+    const mkBtn = (label, title, fn, cls) => {
+      const b = document.createElement('button');
+      b.textContent = label; b.title = title; b.tabIndex = -1;
+      if(cls) b.className = cls;
+      b.onmousedown = e => e.preventDefault();
+      b.onclick = e => { e.stopPropagation(); fn(); };
+      tools.append(b);
+    };
+    mkBtn('＋', '하위 항목 추가', () => addChild(nd.id));
+    mkBtn('📝', '서술(답안 문장) 추가', () => { bodyOpen.add(nd.id); render(); focusBody(nd.id); });
+    mkBtn('◇', '유형 지정 (쟁점·요건·효과…)', function(){ openTypeMenu(nd.id, this); }.bind(tools));
+    mkBtn('★', '중요 표시', () => toggleStar(nd.id));
+    mkBtn('📄', '이 노드부터 답안 조립 (DFS)', () => openAnswer(nd.id));
+    mkBtn('✕', '삭제', () => removeNode(nd.id), 'del');
+    row.append(tools);
+  }
+  if(!editMode && !searching && (hasKids || nd.body)){
+    const b = document.createElement('button');
+    b.className = 'viewAns'; b.textContent = '📄'; b.title = '답안 조립';
+    b.onclick = e => { e.stopPropagation(); openAnswer(nd.id); };
+    row.append(b);
+  }
+  if(!editMode && hasKids && !searching){
+    row.classList.add('tappable');
+    row.onclick = () => toggleCollapse(nd.id);
+  }
+  wrap.append(row);
+
+  if(nd.body || (editMode && bodyOpen.has(nd.id))){
+    const bw = document.createElement('div'); bw.className = 'bodywrap';
+    const bd = document.createElement('div'); bd.className = 'body'; bd.dataset.bid = nd.id;
+    if(searching) bd.innerHTML = highlight(nd.body, query);
+    else bd.textContent = nd.body;
+    if(recall){
+      if(revealed.has(nd.id)) bd.classList.add('revealed');
+      bd.onclick = e => {
+        e.stopPropagation();
+        revealed.has(nd.id) ? revealed.delete(nd.id) : revealed.add(nd.id);
+        bd.classList.toggle('revealed');
+      };
+    }else if(editMode && !searching){
+      bd.contentEditable = 'plaintext-only';
+      bd.spellcheck = false;
+      bd.oninput = () => { nd.body = bd.innerText; scheduleSave(); };
+      bd.onkeydown = e => { if(e.key === 'Escape') bd.blur(); };
+      bd.onblur = () => {
+        if(!bd.innerText.trim()){ nd.body = ''; bodyOpen.delete(nd.id); scheduleSave(); render(); }
+      };
+    }
+    bw.append(bd);
+    wrap.append(bw);
+  }
+
+  if(hasKids && (!nd.collapsed || searching)){
+    const kids = document.createElement('div'); kids.className = 'kids';
+    for(const c of nd.children){
+      const el = nodeEl(c, depth + 1, keep);
+      if(el) kids.append(el);
+    }
+    if(kids.children.length) wrap.append(kids);
+  }
+  return wrap;
+}
+function render(focusId){
+  document.body.classList.toggle('view', !editMode);
+  document.body.classList.toggle('recall', recall);
+  $('#modeBtn').textContent = editMode ? '👁' : '✏️';
+  $('#modeBtn').title = editMode ? '보기 모드로 전환' : '편집 모드로 전환';
+  $('#recallBtn').classList.toggle('on', recall);
+  titleEl.contentEditable = editMode ? 'plaintext-only' : 'false';
+  titleEl.textContent = doc.title;
+
+  const keep = computeMatches();
+  treeEl.innerHTML = '';
+  for(const nd of doc.tree){
+    const el = nodeEl(nd, 0, keep);
+    if(el) treeEl.append(el);
+  }
+  if(!treeEl.children.length){
+    const p = document.createElement('p');
+    p.id = 'empty';
+    p.textContent = keep ? '검색 결과가 없습니다' : '아래 ＋ 버튼으로 첫 항목을 만들어 보세요';
+    treeEl.append(p);
+  }
+  if(focusId) focusText(focusId);
+}
+function placeCaretEnd(el){
+  el.focus();
+  const r = document.createRange();
+  r.selectNodeContents(el); r.collapse(false);
+  const sel = getSelection();
+  sel.removeAllRanges(); sel.addRange(r);
+}
+function focusText(id){
+  const el = treeEl.querySelector('.text[data-id="' + id + '"]');
+  if(el && el.isContentEditable) placeCaretEnd(el);
+}
+function focusBody(id){
+  const el = treeEl.querySelector('.body[data-bid="' + id + '"]');
+  if(el && el.isContentEditable) placeCaretEnd(el);
+}
+function onTextKey(e, nd){
+  if(e.key === 'Enter'){ e.preventDefault(); addSibling(nd.id); }
+  else if(e.key === 'Tab'){ e.preventDefault(); e.shiftKey ? outdentNode(nd.id) : indentNode(nd.id); }
+  else if(e.key === 'Backspace' && e.target.textContent === '' && !nd.children.length){
+    e.preventDefault(); removeNode(nd.id, true);
+  }
+  else if(e.altKey && e.key === 'ArrowUp'){ e.preventDefault(); moveNode(nd.id, -1); }
+  else if(e.altKey && e.key === 'ArrowDown'){ e.preventDefault(); moveNode(nd.id, 1); }
+  else if(e.key === 'Escape'){ e.target.blur(); }
+}
+
+/* ---------- type menu ---------- */
+const typeMenu = $('#typeMenu');
+let typeTarget = null;
+for(const key of Object.keys(TYPES)){
+  const b = document.createElement('button');
+  const badge = badgeEl(key === 'plain' ? 'plain' : key);
+  badge.textContent = TYPES[key].badge || '·';
+  if(key === 'plain') badge.style.setProperty('--bc', 'var(--muted)');
+  b.append(badge, document.createTextNode(TYPES[key].label));
+  b.onclick = e => {
+    e.stopPropagation();
+    if(typeTarget){
+      const { node } = locate(typeTarget);
+      node.type = key;
+      typeMenu.style.display = 'none';
+      typeTarget = null;
+      commit();
+    }
+  };
+  typeMenu.append(b);
+}
+function openTypeMenu(id, anchor){
+  typeTarget = id;
+  const r = anchor.getBoundingClientRect();
+  typeMenu.style.display = 'flex';
+  const mw = 150, mh = typeMenu.offsetHeight || 300;
+  typeMenu.style.left = Math.min(r.left, innerWidth - mw - 8) + 'px';
+  typeMenu.style.top = (r.bottom + mh + 8 > innerHeight ? r.top - mh - 4 : r.bottom + 4) + 'px';
+}
+addEventListener('click', () => { typeMenu.style.display = 'none'; typeTarget = null; });
+
+/* ---------- persistence ---------- */
+let saveTimer = null;
+function scheduleSave(){
+  statusEl.textContent = '저장 중…';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(saveNow, 400);
+}
+function saveNow(){
+  clearTimeout(saveTimer); saveTimer = null;
+  doc.updatedAt = Date.now();
+  localStorage.setItem(LS_DOC, JSON.stringify(doc));
+  statusEl.textContent = '저장됨';
+}
+addEventListener('beforeunload', () => { if(saveTimer) saveNow(); });
+
+/* ---------- toolbar ---------- */
+titleEl.addEventListener('input', () => { doc.title = titleEl.textContent; scheduleSave(); });
+titleEl.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); titleEl.blur(); } });
+$('#search').addEventListener('input', e => { query = e.target.value; render(); });
+$('#collapseBtn').onclick = () => setAllCollapsed(true);
+$('#expandBtn').onclick = () => setAllCollapsed(false);
+$('#recallBtn').onclick = () => {
+  recall = !recall;
+  revealed.clear();
+  render();
+  if(recall) toast('암기 모드 — 서술을 탭하면 확인됩니다');
+};
+$('#modeBtn').onclick = () => {
+  editMode = !editMode;
+  cfg.editMode = editMode; saveCfg();
+  render();
+};
+$('#addRoot').onclick = addRootNode;
+
+$('#exportBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = (doc.title || '법학노트') + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+$('#importBtn').onclick = () => $('#fileIn').click();
+$('#fileIn').addEventListener('change', e => {
+  const f = e.target.files[0];
+  if(!f) return;
+  f.text().then(t => {
+    const d = JSON.parse(t);
+    if(!d || !Array.isArray(d.tree)) throw new Error();
+    normalize(d.tree);
+    doc = d; saveNow(); render(); toast('가져오기 완료');
+  }).catch(() => toast('올바른 노트 파일이 아닙니다'));
+  e.target.value = '';
+});
+
+/* ---------- gist sync ---------- */
+const dlg = $('#syncDlg'), syncMsg = $('#syncMsg');
+$('#syncBtn').onclick = () => {
+  $('#tokenIn').value = cfg.token || '';
+  $('#gistIn').value = cfg.gistId || '';
+  syncMsg.textContent = '';
+  dlg.showModal();
+};
+$('#closeDlg').onclick = () => dlg.close();
+$('#tokenIn').addEventListener('change', e => { cfg.token = e.target.value.trim(); saveCfg(); });
+$('#gistIn').addEventListener('change', e => { cfg.gistId = e.target.value.trim(); saveCfg(); });
+const GIST_FILE = 'lawtree.json';
+
+$('#pushBtn').onclick = async () => {
+  if(!cfg.token){ syncMsg.textContent = '업로드하려면 GitHub 토큰이 필요합니다.'; return; }
+  syncMsg.textContent = '업로드 중…';
+  try{
+    if(saveTimer) saveNow();
+    const body = { description: '법학 트리노트 데이터', files: {} };
+    body.files[GIST_FILE] = { content: JSON.stringify(doc) };
+    let url = 'https://api.github.com/gists', method = 'POST';
+    if(cfg.gistId){ url += '/' + cfg.gistId; method = 'PATCH'; }
+    else body.public = false;
+    const r = await fetch(url, {
+      method,
+      headers: { Authorization: 'Bearer ' + cfg.token, Accept: 'application/vnd.github+json' },
+      body: JSON.stringify(body),
+    });
+    if(!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    cfg.gistId = j.id; saveCfg();
+    $('#gistIn').value = j.id;
+    syncMsg.textContent = '업로드 완료 ✓ — 휴대폰에서는 Gist ID(' + j.id + ')만 입력하고 가져오기를 누르세요.';
+  }catch(err){
+    syncMsg.textContent = '업로드 실패 (' + err.message + ') — 토큰의 gist 권한을 확인하세요.';
+  }
+};
+async function pullGist(silent){
+  if(!cfg.gistId){ if(!silent) syncMsg.textContent = 'Gist ID를 입력하세요.'; return; }
+  if(!silent) syncMsg.textContent = '가져오는 중…';
+  try{
+    const headers = { Accept: 'application/vnd.github+json' };
+    if(cfg.token) headers.Authorization = 'Bearer ' + cfg.token;
+    const r = await fetch('https://api.github.com/gists/' + cfg.gistId, { headers });
+    if(!r.ok) throw new Error(r.status);
+    const j = await r.json();
+    const f = j.files && j.files[GIST_FILE];
+    if(!f) throw new Error('데이터 없음');
+    let content = f.content;
+    if(f.truncated) content = await (await fetch(f.raw_url)).text();
+    const d = JSON.parse(content);
+    if(!d || !Array.isArray(d.tree)) throw new Error('형식 오류');
+    normalize(d.tree);
+    doc = d; saveNow(); render();
+    if(!silent){ syncMsg.textContent = ''; dlg.close(); }
+    toast('동기화 완료');
+  }catch(err){
+    if(!silent) syncMsg.textContent = '가져오기 실패 (' + err.message + ')';
+  }
+}
+$('#pullBtn').onclick = () => pullGist(false);
+
+addEventListener('keydown', e => {
+  if((e.ctrlKey || e.metaKey) && e.key === 's'){
+    e.preventDefault();
+    if(saveTimer) saveNow();
+    if(cfg.token && editMode) $('#pushBtn').onclick();
+    else toast('저장됨');
+  }
+});
+
+/* ---------- misc ---------- */
+let toastTimer = null;
+function toast(msg){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+function syncMode(){
+  const m = !mobileMq.matches && cfg.editMode !== false;
+  if(m !== editMode){ editMode = m; render(); }
+}
+mobileMq.addEventListener('change', syncMode);
+addEventListener('resize', syncMode);
+
+render();
+statusEl.textContent = '저장됨';
+// 모바일(보기 모드)에서 열면 자동으로 최신 내용을 받아온다
+if(!editMode && cfg.gistId) pullGist(true);
+</script>
+</body>
+</html>
