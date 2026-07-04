@@ -217,6 +217,7 @@ dialog input:focus{border-color:var(--accent)}
     <button class="icon" id="collapseBtn" title="모두 접기">⊟</button>
     <button class="icon" id="expandBtn" title="모두 펼치기">⊞</button>
     <button class="icon" id="quizBtn" title="퀴즈 — 간격 반복 복습">🎯</button>
+    <button class="icon" id="streakBtn" title="연속 학습일 · 오늘 목표">🔥</button>
     <button class="icon" id="recallBtn" title="암기 모드 — 서술을 가리고 목차만 보기">🧠</button>
     <button class="icon" id="modeBtn" title="편집/보기 전환"></button>
     <button class="icon" id="syncBtn" title="기기 간 동기화">⇅</button>
@@ -233,7 +234,7 @@ dialog input:focus{border-color:var(--accent)}
 
 <dialog id="syncDlg">
   <h3>기기 간 동기화 (GitHub Gist)</h3>
-  <p class="hint">PC에서 편집 후 <b>업로드</b>, 휴대폰에서는 같은 Gist ID를 넣고 <b>가져오기</b>만 하면 됩니다. 휴대폰에는 토큰이 필요 없습니다. (토큰: github.com → Settings → Developer settings → Personal access tokens, gist 권한)</p>
+  <p class="hint">노트 내용과 퀴즈 진도(복습 스케줄·통계)가 함께 동기화됩니다. PC에서 편집 후 <b>업로드</b>, 휴대폰에서는 같은 Gist ID를 넣고 <b>가져오기</b>만 하면 됩니다. 휴대폰에도 토큰을 넣으면 퀴즈를 마칠 때마다 진도가 자동 업로드됩니다. (토큰: github.com → Settings → Developer settings → Personal access tokens, gist 권한)</p>
   <label>GitHub 토큰 (업로드용)
     <input id="tokenIn" type="password" placeholder="ghp_… / github_pat_…" autocomplete="off">
   </label>
@@ -255,6 +256,18 @@ dialog input:focus{border-color:var(--accent)}
   <div class="dlgBtns">
     <button id="copyAns" class="primary">복사</button>
     <button id="closeAns">닫기</button>
+  </div>
+</dialog>
+
+<dialog id="statsDlg">
+  <h3>학습 통계</h3>
+  <p id="statsInfo" class="hint"></p>
+  <label>하루 목표 (문제 수)
+    <input id="goalIn" type="number" min="1" max="200">
+  </label>
+  <p class="hint">목표를 채운 날이 이어지면 🔥 연속 일수가 올라갑니다.</p>
+  <div class="dlgBtns">
+    <button id="closeStats" class="primary">닫기</button>
   </div>
 </dialog>
 
@@ -647,6 +660,8 @@ function render(focusId){
   $('#recallBtn').classList.toggle('on', recall);
   const dc = dueCount();
   $('#quizBtn').textContent = dc ? '🎯 ' + dc : '🎯';
+  const st = calcStreak();
+  $('#streakBtn').textContent = st ? '🔥 ' + st : '🔥';
   titleEl.contentEditable = editMode ? 'plaintext-only' : 'false';
   titleEl.textContent = doc.title;
 
@@ -756,7 +771,8 @@ $('#modeBtn').onclick = () => {
 $('#addRoot').onclick = addRootNode;
 
 $('#exportBtn').onclick = () => {
-  const blob = new Blob([JSON.stringify(doc, null, 2)], { type: 'application/json' });
+  const payload = { title: doc.title, updatedAt: doc.updatedAt, tree: doc.tree, srs, stats };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
   a.download = (doc.title || '법학노트') + '.json';
@@ -771,7 +787,10 @@ $('#fileIn').addEventListener('change', e => {
     const d = JSON.parse(t);
     if(!d || !Array.isArray(d.tree)) throw new Error();
     normalize(d.tree);
-    doc = d; saveNow(); render(); toast('가져오기 완료');
+    mergeSrs(d.srs);
+    mergeStats(d.stats);
+    doc = { title: d.title || '법학 노트', updatedAt: d.updatedAt || Date.now(), tree: d.tree };
+    saveNow(); render(); toast('가져오기 완료');
   }).catch(() => toast('올바른 노트 파일이 아닙니다'));
   e.target.value = '';
 });
@@ -789,13 +808,14 @@ $('#tokenIn').addEventListener('change', e => { cfg.token = e.target.value.trim(
 $('#gistIn').addEventListener('change', e => { cfg.gistId = e.target.value.trim(); saveCfg(); });
 const GIST_FILE = 'lawtree.json';
 
-$('#pushBtn').onclick = async () => {
-  if(!cfg.token){ syncMsg.textContent = '업로드하려면 GitHub 토큰이 필요합니다.'; return; }
-  syncMsg.textContent = '업로드 중…';
+async function pushGist(silent){
+  if(!cfg.token){ if(!silent) syncMsg.textContent = '업로드하려면 GitHub 토큰이 필요합니다.'; return; }
+  if(!silent) syncMsg.textContent = '업로드 중…';
   try{
     if(saveTimer) saveNow();
+    const payload = { title: doc.title, updatedAt: doc.updatedAt, tree: doc.tree, srs, stats };
     const body = { description: '법학 트리노트 데이터', files: {} };
-    body.files[GIST_FILE] = { content: JSON.stringify(doc) };
+    body.files[GIST_FILE] = { content: JSON.stringify(payload) };
     let url = 'https://api.github.com/gists', method = 'POST';
     if(cfg.gistId){ url += '/' + cfg.gistId; method = 'PATCH'; }
     else body.public = false;
@@ -807,12 +827,16 @@ $('#pushBtn').onclick = async () => {
     if(!r.ok) throw new Error(r.status);
     const j = await r.json();
     cfg.gistId = j.id; saveCfg();
-    $('#gistIn').value = j.id;
-    syncMsg.textContent = '업로드 완료 ✓ — 휴대폰에서는 Gist ID(' + j.id + ')만 입력하고 가져오기를 누르세요.';
+    if(silent){ toast('진도 동기화됨 ☁'); }
+    else{
+      $('#gistIn').value = j.id;
+      syncMsg.textContent = '업로드 완료 ✓ — 휴대폰에서는 Gist ID(' + j.id + ')만 입력하고 가져오기를 누르세요.';
+    }
   }catch(err){
-    syncMsg.textContent = '업로드 실패 (' + err.message + ') — 토큰의 gist 권한을 확인하세요.';
+    if(!silent) syncMsg.textContent = '업로드 실패 (' + err.message + ') — 토큰의 gist 권한을 확인하세요.';
   }
-};
+}
+$('#pushBtn').onclick = () => pushGist(false);
 async function pullGist(silent){
   if(!cfg.gistId){ if(!silent) syncMsg.textContent = 'Gist ID를 입력하세요.'; return; }
   if(!silent) syncMsg.textContent = '가져오는 중…';
@@ -829,9 +853,17 @@ async function pullGist(silent){
     const d = JSON.parse(content);
     if(!d || !Array.isArray(d.tree)) throw new Error('형식 오류');
     normalize(d.tree);
-    doc = d; saveNow(); render();
-    if(!silent){ syncMsg.textContent = ''; dlg.close(); }
-    toast('동기화 완료');
+    mergeSrs(d.srs);
+    mergeStats(d.stats);
+    // 조용한 동기화에서는 내 쪽이 더 최신이면(오프라인 편집 등) 노트 내용을 덮지 않는다
+    const replace = !silent || (d.updatedAt || 0) >= (doc.updatedAt || 0);
+    if(replace){
+      doc = { title: d.title || '법학 노트', updatedAt: d.updatedAt || 0, tree: d.tree };
+      saveNow();
+    }
+    render();
+    if(!silent){ syncMsg.textContent = ''; dlg.close(); toast('동기화 완료'); }
+    else if(replace) toast('최신 내용 반영됨');
   }catch(err){
     if(!silent) syncMsg.textContent = '가져오기 실패 (' + err.message + ')';
   }
@@ -842,7 +874,7 @@ addEventListener('keydown', e => {
   if((e.ctrlKey || e.metaKey) && e.key === 's'){
     e.preventDefault();
     if(saveTimer) saveNow();
-    if(cfg.token && editMode) $('#pushBtn').onclick();
+    if(cfg.token && editMode) pushGist(true);
     else toast('저장됨');
   }
 });
@@ -853,6 +885,51 @@ let srs = {};
 try{ srs = JSON.parse(localStorage.getItem(LS_SRS)) || {}; }catch(e){}
 const saveSrs = () => localStorage.setItem(LS_SRS, JSON.stringify(srs));
 const RE_LAW = /제\d+조(?:의\d+)?(?:\s?제\d+항)?(?:\s?단서)?/g;
+
+/* ---------- 학습 통계 · 연속 학습일 ---------- */
+const LS_STATS = 'lawtree.stats';
+let stats = { goal: 10, best: 0, days: {} };
+try{ const s = JSON.parse(localStorage.getItem(LS_STATS)); if(s) stats = Object.assign(stats, s); }catch(e){}
+const saveStats = () => localStorage.setItem(LS_STATS, JSON.stringify(stats));
+const dayKey = t => {
+  const d = new Date(t);
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+};
+function todayStats(){ return stats.days[dayKey(Date.now())] || { done: 0, right: 0 }; }
+function calcStreak(){
+  const met = k => { const d = stats.days[k]; return !!d && d.done >= stats.goal; };
+  let n = 0, t = Date.now();
+  if(!met(dayKey(t))) t -= 864e5;   // 오늘 아직 미달성이면 어제까지의 연속을 센다
+  while(met(dayKey(t))){ n++; t -= 864e5; }
+  return n;
+}
+function bumpStats(ok){
+  const k = dayKey(Date.now());
+  const d = stats.days[k] || (stats.days[k] = { done: 0, right: 0 });
+  d.done++;
+  if(ok) d.right++;
+  stats.best = Math.max(stats.best || 0, calcStreak());
+  saveStats();
+}
+/* 기기 간 진도 병합 — 카드는 더 최근에 복습한 쪽, 날짜별 기록은 큰 값 우선 */
+function mergeSrs(remote){
+  if(!remote) return;
+  for(const [id, rc] of Object.entries(remote)){
+    const lc = srs[id];
+    if(!lc || (rc.last || 0) > (lc.last || 0)) srs[id] = rc;
+  }
+  saveSrs();
+}
+function mergeStats(remote){
+  if(!remote) return;
+  stats.best = Math.max(stats.best || 0, remote.best || 0);
+  for(const [k, rd] of Object.entries(remote.days || {})){
+    const ld = stats.days[k];
+    if(!ld) stats.days[k] = rd;
+    else{ ld.done = Math.max(ld.done, rd.done); ld.right = Math.max(ld.right, rd.right); }
+  }
+  saveStats();
+}
 
 function flatNodes(){
   const out = [];
@@ -1030,6 +1107,7 @@ function revealSelf(){
 function finishQuestion(ok, msg){
   const { q, o } = quiz.cur;
   gradeCard(q.nodeId, ok);
+  bumpStats(ok);
   quiz.done++;
   if(ok) quiz.right++;
   else{ quiz.wrong++; quiz.queue.splice(Math.min(3, quiz.queue.length), 0, o); }  // 틀리면 잠시 뒤 다시
@@ -1039,12 +1117,17 @@ function endQuiz(){
   const acc = quiz.done ? Math.round(quiz.right / quiz.done * 100) : 0;
   const now = Date.now();
   const soon = Object.values(srs).filter(c => c.due > now && c.due <= now + 864e5).length;
+  const td = todayStats(), streak = calcStreak();
+  const goalMsg = td.done >= stats.goal
+    ? '오늘 목표 달성! 🔥 연속 ' + streak + '일째'
+    : '오늘 ' + td.done + '/' + stats.goal + '문제 — 목표까지 ' + (stats.goal - td.done) + '문제';
   $('#quizPath').textContent = '';
   $('#quizChoices').innerHTML = '';
   $('#quizAnswer').hidden = true;
-  $('#quizPrompt').textContent = '오늘 학습 끝! 🎉\n\n푼 문제 ' + quiz.done + '개 · 정답률 ' + acc + '%\n24시간 안에 복습할 카드 ' + soon + '개';
+  $('#quizPrompt').textContent = '오늘 학습 끝! 🎉\n\n푼 문제 ' + quiz.done + '개 · 정답률 ' + acc + '%\n' + goalMsg + '\n24시간 안에 복습할 카드 ' + soon + '개';
   $('#quizFill').style.width = '100%';
   setFoot('ok', '', [['한 번 더', startQuiz, true], ['닫기', closeQuiz]]);
+  if(cfg.token) pushGist(true);   // 퀴즈 진도 자동 업로드
 }
 function closeQuiz(){
   quiz = null;
@@ -1053,6 +1136,17 @@ function closeQuiz(){
 }
 $('#quizClose').onclick = closeQuiz;
 $('#quizBtn').onclick = startQuiz;
+$('#streakBtn').onclick = () => {
+  const td = todayStats(), st = calcStreak();
+  $('#statsInfo').textContent = '오늘 ' + td.done + '문제 푸는 중 (정답 ' + td.right + ') · 연속 ' + st + '일 · 최고 기록 ' + (stats.best || 0) + '일';
+  $('#goalIn').value = stats.goal;
+  $('#statsDlg').showModal();
+};
+$('#closeStats').onclick = () => $('#statsDlg').close();
+$('#goalIn').addEventListener('change', e => {
+  const v = parseInt(e.target.value, 10);
+  if(v >= 1 && v <= 200){ stats.goal = v; saveStats(); render(); }
+});
 
 /* ---------- misc ---------- */
 let toastTimer = null;
@@ -1072,8 +1166,8 @@ addEventListener('resize', syncMode);
 
 render();
 statusEl.textContent = '저장됨';
-// 모바일(보기 모드)에서 열면 자동으로 최신 내용을 받아온다
-if(!editMode && cfg.gistId) pullGist(true);
+// 동기화가 설정돼 있으면 열 때마다 최신 내용·진도를 받아온다 (내 쪽이 더 최신이면 노트는 유지)
+if(cfg.gistId) pullGist(true);
 </script>
 </body>
 </html>
