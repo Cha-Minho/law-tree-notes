@@ -165,6 +165,41 @@ dialog input:focus{border-color:var(--accent)}
 #typeMenu button:hover{background:var(--rowhover)}
 #typeMenu .badge{margin-top:0}
 
+/* ---- quiz ---- */
+#quizOv{position:fixed; inset:0; z-index:40; display:none; flex-direction:column; background:var(--bg)}
+#quizTop{display:flex; align-items:center; gap:10px; max-width:640px; width:100%; margin:0 auto; padding:14px}
+#quizBar{flex:1; height:10px; border-radius:5px; background:var(--rowhover); overflow:hidden}
+#quizFill{height:100%; width:0; background:var(--c-effect); border-radius:5px; transition:width .3s}
+#quizClose{border:none; background:transparent; color:var(--muted); font-size:18px; cursor:pointer; padding:2px 6px}
+#quizScroll{flex:1; overflow:auto; width:100%}
+#quizCard{max-width:640px; margin:0 auto; padding:10px 18px 24px}
+#quizPath{font-size:12px; color:var(--muted); margin-bottom:12px}
+#quizPrompt{font-size:17px; font-weight:600; line-height:1.65; white-space:pre-wrap; margin-bottom:20px}
+#quizChoices{display:flex; flex-direction:column; gap:10px}
+#quizChoices button{
+  text-align:left; padding:12px 14px; border:1.5px solid var(--line); border-radius:12px;
+  background:transparent; color:var(--fg); font-size:15px; cursor:pointer; line-height:1.55;
+}
+#quizChoices button:hover:not(:disabled){background:var(--rowhover)}
+#quizChoices button.good{border-color:var(--c-effect); background:color-mix(in srgb, var(--c-effect) 12%, transparent)}
+#quizChoices button.bad{border-color:var(--danger); background:color-mix(in srgb, var(--danger) 10%, transparent)}
+#quizAnswer{
+  white-space:pre-wrap; font:15px/1.7 inherit; font-family:inherit;
+  border:1px solid var(--line); border-radius:12px; padding:14px; margin-top:6px;
+}
+#quizFoot{border-top:1px solid var(--line); padding:14px}
+#quizFoot.ok{background:color-mix(in srgb, var(--c-effect) 12%, transparent)}
+#quizFoot.no{background:color-mix(in srgb, var(--danger) 10%, transparent)}
+#quizFootIn{max-width:640px; margin:0 auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+#quizMsg{flex:1; font-weight:600; min-width:150px; white-space:pre-wrap}
+#quizBtns{display:flex; gap:8px}
+#quizBtns button{
+  padding:10px 22px; border-radius:10px; border:1px solid var(--accent);
+  background:var(--accent); color:#fff; font-size:15px; font-weight:600; cursor:pointer;
+}
+#quizBtns button.ghost{background:transparent; color:var(--fg); border-color:var(--line)}
+.key{border-bottom:1.5px dotted var(--accent)}
+
 #toast{
   position:fixed; left:50%; bottom:26px; transform:translateX(-50%);
   background:var(--fg); color:var(--bg); font-size:13px;
@@ -181,6 +216,7 @@ dialog input:focus{border-color:var(--accent)}
     <input id="search" type="search" placeholder="검색 (제목·서술)">
     <button class="icon" id="collapseBtn" title="모두 접기">⊟</button>
     <button class="icon" id="expandBtn" title="모두 펼치기">⊞</button>
+    <button class="icon" id="quizBtn" title="퀴즈 — 간격 반복 복습">🎯</button>
     <button class="icon" id="recallBtn" title="암기 모드 — 서술을 가리고 목차만 보기">🧠</button>
     <button class="icon" id="modeBtn" title="편집/보기 전환"></button>
     <button class="icon" id="syncBtn" title="기기 간 동기화">⇅</button>
@@ -192,7 +228,7 @@ dialog input:focus{border-color:var(--accent)}
 <main>
   <div id="tree"></div>
   <button id="addRoot">＋ 항목 추가</button>
-  <p id="hint">Enter 새 항목 · Tab 들여쓰기 · Shift+Tab 내어쓰기 · Alt+↑↓ 이동 &nbsp;|&nbsp; 마우스 오버: ＋하위 📝서술 ◇유형 ★중요 📄답안 조립 ✕삭제</p>
+  <p id="hint">Enter 새 항목 · Tab 들여쓰기 · Shift+Tab 내어쓰기 · Alt+↑↓ 이동 &nbsp;|&nbsp; 마우스 오버: ＋하위 📝서술 ◇유형 ★중요 📄답안 조립 ✕삭제 &nbsp;|&nbsp; 서술에서 {{중요어}}로 감싸면 🎯 퀴즈에서 빈칸으로 출제</p>
 </main>
 
 <dialog id="syncDlg">
@@ -221,6 +257,23 @@ dialog input:focus{border-color:var(--accent)}
     <button id="closeAns">닫기</button>
   </div>
 </dialog>
+
+<div id="quizOv">
+  <div id="quizTop">
+    <div id="quizBar"><div id="quizFill"></div></div>
+    <button id="quizClose" title="종료">✕</button>
+  </div>
+  <div id="quizScroll"><div id="quizCard">
+    <div id="quizPath"></div>
+    <div id="quizPrompt"></div>
+    <div id="quizChoices"></div>
+    <pre id="quizAnswer" hidden></pre>
+  </div></div>
+  <div id="quizFoot"><div id="quizFootIn">
+    <div id="quizMsg"></div>
+    <div id="quizBtns"></div>
+  </div></div>
+</div>
 
 <div id="typeMenu"></div>
 <input type="file" id="fileIn" accept=".json,application/json" hidden>
@@ -262,9 +315,9 @@ function sampleDoc(){
               '동기의 착오는 그 동기가 상대방에게 표시되어 법률행위의 내용이 된 경우에 한하여 취소할 수 있다.'),
           ]),
           mkNode('중요부분의 착오일 것', 'req',
-            '표의자가 착오가 없었더라면 그러한 의사표시를 하지 않았을 것이고(주관적 현저성), 일반인이라도 하지 않았을 것(객관적 현저성)이어야 한다.'),
+            '표의자가 착오가 없었더라면 그러한 의사표시를 하지 않았을 것이고({{주관적 현저성}}), 일반인이라도 하지 않았을 것({{객관적 현저성}})이어야 한다.'),
           mkNode('표의자에게 중대한 과실이 없을 것', 'req',
-            '중대한 과실이란 표의자의 직업·행위의 종류 등에 비추어 보통 요구되는 주의를 현저히 결여한 것을 말하고, 그 증명책임은 상대방에게 있다.', [
+            '중대한 과실이란 표의자의 직업·행위의 종류 등에 비추어 보통 요구되는 주의를 현저히 결여한 것을 말하고, 그 증명책임은 {{상대방}}에게 있다.', [
             mkNode('제109조 제1항 단서', 'law', ''),
           ]),
         ]),
@@ -414,7 +467,7 @@ function numFor(depth, i){
 }
 function buildAnswer(node){
   const lines = ['【' + node.text + '】'];
-  if(node.body) lines.push(node.body);
+  if(node.body) lines.push(stripMarks(node.body));
   (function walk(list, depth){
     const pad = '  '.repeat(depth);
     let idx = 0;
@@ -422,12 +475,12 @@ function buildAnswer(node){
       // 조문·판례·학설 잎 노드는 목차 번호 없이 근거로 붙인다
       if((nd.type === 'law' || nd.type === 'case' || nd.type === 'theory') && !nd.children.length){
         const tag = nd.type === 'law' ? '§' : nd.type === 'case' ? '判:' : '學:';
-        lines.push(pad + '   ' + tag + ' ' + nd.text + (nd.body ? ' — ' + nd.body : ''));
+        lines.push(pad + '   ' + tag + ' ' + nd.text + (nd.body ? ' — ' + stripMarks(nd.body) : ''));
         continue;
       }
       lines.push('');
       lines.push(pad + numFor(depth, idx++) + ' ' + nd.text);
-      if(nd.body) lines.push(pad + '   ' + nd.body);
+      if(nd.body) lines.push(pad + '   ' + stripMarks(nd.body));
       walk(nd.children, depth + 1);
     }
   })(node.children, 0);
@@ -459,7 +512,7 @@ function computeMatches(){
   const keep = new Set();
   (function walk(list, anc){
     for(const nd of list){
-      if(nd.text.toLowerCase().includes(q) || nd.body.toLowerCase().includes(q)){
+      if(nd.text.toLowerCase().includes(q) || stripMarks(nd.body).toLowerCase().includes(q)){
         keep.add(nd.id);
         for(const a of anc) keep.add(a);
       }
@@ -469,6 +522,8 @@ function computeMatches(){
   return keep;
 }
 const escHtml = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const stripMarks = s => s.replace(/\{\{(.+?)\}\}/g, '$1');
+const keyHtml = s => escHtml(s).replace(/\{\{(.+?)\}\}/g, '<span class="key">$1</span>');
 function highlight(text, q){
   const re = new RegExp('(' + q.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
   return text.split(re).map((part, i) => i % 2 ? '<mark>' + escHtml(part) + '</mark>' : escHtml(part)).join('');
@@ -551,8 +606,9 @@ function nodeEl(nd, depth, keep){
   if(nd.body || (editMode && bodyOpen.has(nd.id))){
     const bw = document.createElement('div'); bw.className = 'bodywrap';
     const bd = document.createElement('div'); bd.className = 'body'; bd.dataset.bid = nd.id;
-    if(searching) bd.innerHTML = highlight(nd.body, query);
-    else bd.textContent = nd.body;
+    if(searching) bd.innerHTML = highlight(stripMarks(nd.body), query);
+    else if(editMode) bd.textContent = nd.body;
+    else bd.innerHTML = keyHtml(nd.body);
     if(recall){
       if(revealed.has(nd.id)) bd.classList.add('revealed');
       bd.onclick = e => {
@@ -589,6 +645,8 @@ function render(focusId){
   $('#modeBtn').textContent = editMode ? '👁' : '✏️';
   $('#modeBtn').title = editMode ? '보기 모드로 전환' : '편집 모드로 전환';
   $('#recallBtn').classList.toggle('on', recall);
+  const dc = dueCount();
+  $('#quizBtn').textContent = dc ? '🎯 ' + dc : '🎯';
   titleEl.contentEditable = editMode ? 'plaintext-only' : 'false';
   titleEl.textContent = doc.title;
 
@@ -788,6 +846,213 @@ addEventListener('keydown', e => {
     else toast('저장됨');
   }
 });
+
+/* ---------- 퀴즈 · 간격 반복(SRS) ---------- */
+const LS_SRS = 'lawtree.srs';
+let srs = {};
+try{ srs = JSON.parse(localStorage.getItem(LS_SRS)) || {}; }catch(e){}
+const saveSrs = () => localStorage.setItem(LS_SRS, JSON.stringify(srs));
+const RE_LAW = /제\d+조(?:의\d+)?(?:\s?제\d+항)?(?:\s?단서)?/g;
+
+function flatNodes(){
+  const out = [];
+  (function walk(list, path){
+    for(const nd of list){ out.push({ nd, path }); walk(nd.children, path.concat(nd.text)); }
+  })(doc.tree, []);
+  return out;
+}
+function shuffle(a){
+  a = [...a];
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+const rand = arr => arr[Math.floor(Math.random() * arr.length)];
+function inSubtree(root, id){ return root.id === id || root.children.some(c => inSubtree(c, id)); }
+
+function questionTypes(o){
+  const t = [];
+  if(o.nd.text && o.nd.children.length >= 2) t.push('recall', 'odd');
+  if(o.nd.text && stripMarks(o.nd.body).length >= 20) t.push('which');
+  if(/\{\{.+?\}\}/.test(o.nd.body) || (stripMarks(o.nd.body).match(RE_LAW) || []).length) t.push('cloze');
+  return t;
+}
+function clozeTerms(all, except){
+  const s = new Set();
+  for(const o of all){
+    for(const m of o.nd.body.matchAll(/\{\{(.+?)\}\}/g)) s.add(m[1]);
+    for(const m of (o.nd.text + ' ' + stripMarks(o.nd.body)).matchAll(RE_LAW)) s.add(m[0]);
+  }
+  s.delete(except);
+  return [...s];
+}
+function withAnswer(distractors, answer){
+  const arr = shuffle([...distractors, answer]);
+  return { arr, idx: arr.indexOf(answer) };
+}
+function makeQuestion(o, all){
+  const types = questionTypes(o);
+  if(!types.length) return null;
+  const nd = o.nd, path = o.path.join(' › ');
+  const type = rand(types);
+  if(type === 'recall'){
+    return { kind:'self', nodeId: nd.id, path,
+      prompt: '「' + nd.text + '」의 하위 항목 ' + nd.children.length + '개를 순서대로 떠올려 보세요.',
+      answer: nd.children.map((c, i) => (i + 1) + '. ' + c.text).join('\n') };
+  }
+  if(type === 'odd'){
+    const kids = shuffle(nd.children).slice(0, 3).map(c => c.text).filter(Boolean);
+    if(kids.length < 2) return null;
+    let pool = all.filter(x => x.nd.text && !inSubtree(nd, x.nd.id) && !kids.includes(x.nd.text) && x.nd.text !== nd.text);
+    const same = pool.filter(x => x.nd.type === nd.children[0].type);
+    if(same.length) pool = same;
+    if(!pool.length) return null;
+    const { arr, idx } = withAnswer(kids, rand(pool).nd.text);
+    return { kind:'mcq', nodeId: nd.id, path,
+      prompt: '다음 중 「' + nd.text + '」의 하위 항목이 아닌 것은?', choices: arr, answer: idx };
+  }
+  if(type === 'which'){
+    const body = stripMarks(nd.body);
+    let pool = all.filter(x => x.nd.id !== nd.id && x.nd.text && x.nd.text !== nd.text);
+    const same = pool.filter(x => x.nd.type === nd.type);
+    if(same.length >= 3) pool = same;
+    const ds = [...new Set(shuffle(pool).map(x => x.nd.text))].slice(0, 3);
+    if(ds.length < 3) return null;
+    const { arr, idx } = withAnswer(ds, nd.text);
+    return { kind:'mcq', nodeId: nd.id, path,
+      prompt: '다음 설명에 해당하는 항목은?\n\n“' + (body.length > 200 ? body.slice(0, 200) + '…' : body) + '”',
+      choices: arr, answer: idx };
+  }
+  if(type === 'cloze'){
+    const marks = [...nd.body.matchAll(/\{\{(.+?)\}\}/g)].map(m => m[1]);
+    const laws = stripMarks(nd.body).match(RE_LAW) || [];
+    const target = marks.length ? rand(marks) : rand(laws);
+    if(!target) return null;
+    const display = stripMarks(nd.body).replace(target, ' ＿＿＿ ');
+    const prompt = '빈칸에 들어갈 것은?\n\n「' + nd.text + '」\n“' + display + '”';
+    const ds = shuffle(clozeTerms(all, target)).slice(0, 3);
+    if(ds.length >= 3){
+      const { arr, idx } = withAnswer(ds, target);
+      return { kind:'mcq', nodeId: nd.id, path, prompt, choices: arr, answer: idx };
+    }
+    return { kind:'self', nodeId: nd.id, path, prompt, answer: target };
+  }
+  return null;
+}
+
+function gradeCard(id, ok){
+  const c = srs[id] || (srs[id] = { ivl: 0, due: 0, streak: 0, lapses: 0, last: 0 });
+  const now = Date.now();
+  if(ok){ c.streak++; c.ivl = c.ivl ? Math.round(c.ivl * 2.5) : 1; c.due = now + c.ivl * 864e5; }
+  else{ c.streak = 0; c.lapses++; c.ivl = 0; c.due = now + 6e5; }
+  c.last = now;
+  saveSrs();
+}
+function dueCount(){
+  const now = Date.now();
+  return flatNodes().filter(o => questionTypes(o).length && srs[o.nd.id] && srs[o.nd.id].due <= now).length;
+}
+
+let quiz = null;
+function startQuiz(){
+  const all = flatNodes().filter(o => questionTypes(o).length);
+  if(all.length < 4){ toast('문제를 만들 자료가 아직 부족해요 — 항목과 서술을 더 채워주세요'); return; }
+  const now = Date.now();
+  const due = all.filter(o => srs[o.nd.id] && srs[o.nd.id].due <= now);
+  const fresh = all.filter(o => !srs[o.nd.id]);
+  let queue = [...shuffle(due), ...shuffle(fresh).slice(0, 10)];
+  if(!queue.length) queue = shuffle(all).slice(0, 10);   // 복습할 게 없으면 자유 연습
+  quiz = { queue, all, right: 0, wrong: 0, done: 0 };
+  $('#quizOv').style.display = 'flex';
+  nextQuestion();
+}
+function nextQuestion(){
+  if(!quiz.queue.length){ endQuiz(); return; }
+  const o = quiz.queue.shift();
+  let q = null;
+  for(let k = 0; k < 4 && !q; k++) q = makeQuestion(o, quiz.all);
+  if(!q){ nextQuestion(); return; }
+  quiz.cur = { q, o };
+  renderQuestion(q);
+}
+function setFoot(state, msg, btns){
+  $('#quizFoot').className = state;
+  $('#quizMsg').textContent = msg;
+  const bt = $('#quizBtns');
+  bt.innerHTML = '';
+  for(const [label, fn, ghost] of btns){
+    const b = document.createElement('button');
+    b.textContent = label;
+    if(ghost) b.className = 'ghost';
+    b.onclick = fn;
+    bt.append(b);
+  }
+}
+function renderQuestion(q){
+  $('#quizFill').style.width = Math.round(quiz.done / (quiz.done + quiz.queue.length + 1) * 100) + '%';
+  $('#quizPath').textContent = q.path;
+  $('#quizPrompt').textContent = q.prompt;
+  $('#quizScroll').scrollTop = 0;
+  const ch = $('#quizChoices');
+  ch.innerHTML = '';
+  $('#quizAnswer').hidden = true;
+  if(q.kind === 'mcq'){
+    q.choices.forEach((c, i) => {
+      const b = document.createElement('button');
+      b.textContent = ['①','②','③','④'][i] + ' ' + c;
+      b.onclick = () => answerMcq(i);
+      ch.append(b);
+    });
+    setFoot('', '', []);
+  }else{
+    $('#quizAnswer').textContent = q.answer;
+    setFoot('', '떠올린 다음 확인을 누르세요', [['확인', revealSelf]]);
+  }
+}
+function answerMcq(i){
+  const q = quiz.cur.q;
+  const btns = [...$('#quizChoices').children];
+  btns.forEach(b => b.disabled = true);
+  btns[q.answer].classList.add('good');
+  const ok = i === q.answer;
+  if(!ok) btns[i].classList.add('bad');
+  finishQuestion(ok, ok ? '정답! 🎉' : '오답 — 정답: ' + q.choices[q.answer]);
+}
+function revealSelf(){
+  $('#quizAnswer').hidden = false;
+  setFoot('', '맞게 떠올렸나요?', [
+    ['틀렸어요', () => finishQuestion(false, '조금 뒤에 다시 나와요'), true],
+    ['맞았어요', () => finishQuestion(true, '좋아요!')],
+  ]);
+}
+function finishQuestion(ok, msg){
+  const { q, o } = quiz.cur;
+  gradeCard(q.nodeId, ok);
+  quiz.done++;
+  if(ok) quiz.right++;
+  else{ quiz.wrong++; quiz.queue.splice(Math.min(3, quiz.queue.length), 0, o); }  // 틀리면 잠시 뒤 다시
+  setFoot(ok ? 'ok' : 'no', msg, [['계속', nextQuestion]]);
+}
+function endQuiz(){
+  const acc = quiz.done ? Math.round(quiz.right / quiz.done * 100) : 0;
+  const now = Date.now();
+  const soon = Object.values(srs).filter(c => c.due > now && c.due <= now + 864e5).length;
+  $('#quizPath').textContent = '';
+  $('#quizChoices').innerHTML = '';
+  $('#quizAnswer').hidden = true;
+  $('#quizPrompt').textContent = '오늘 학습 끝! 🎉\n\n푼 문제 ' + quiz.done + '개 · 정답률 ' + acc + '%\n24시간 안에 복습할 카드 ' + soon + '개';
+  $('#quizFill').style.width = '100%';
+  setFoot('ok', '', [['한 번 더', startQuiz, true], ['닫기', closeQuiz]]);
+}
+function closeQuiz(){
+  quiz = null;
+  $('#quizOv').style.display = 'none';
+  render();  // 🎯 배지 갱신
+}
+$('#quizClose').onclick = closeQuiz;
+$('#quizBtn').onclick = startQuiz;
 
 /* ---------- misc ---------- */
 let toastTimer = null;
