@@ -314,6 +314,13 @@ dialog input:focus{border-color:var(--accent)}
     </label>
     <div class="dlgBtns"><button id="qbAdd" class="primary">추가</button></div>
   </fieldset>
+  <details id="barSec">
+    <summary>🏛 변호사시험 기출 불러오기</summary>
+    <p class="hint" style="margin-top:8px">법무부가 공개한 변호사시험 선택형 기출입니다(공공누리 제1유형 · 출처: 법무부). 위에서 선택한 항목에 연결되며, 이미 불러온 문제는 중복 추가되지 않습니다.</p>
+    <select id="barSel"></select>
+    <div class="dlgBtns"><button id="barLoad" class="primary">불러오기</button></div>
+    <p id="barMsg" class="hint"></p>
+  </details>
   <details>
     <summary>📚 문제집에서 일괄 가져오기</summary>
     <p class="hint" style="margin-top:8px">① <b>변환 프롬프트 복사</b> → ② AI 채팅(ChatGPT·Claude 등)에 프롬프트와 문제집 내용을 붙여넣기 → ③ 나온 JSON을 아래에 붙여넣고 가져오기. 가져온 문제는 위에서 선택한 항목에 연결됩니다. 개인 학습 목적으로만 사용하세요.</p>
@@ -1282,8 +1289,59 @@ function openQb(nodeId){
   if(s.value !== (nodeId || '')) s.value = '';
   renderQbList();
   qbTypeChanged();
+  fillBarSel();
   $('#qbDlg').showModal();
 }
+
+/* 변호사시험 기출 세트 (data/*.json, 법무부 공개·공공누리 제1유형) */
+let barManifest = null;
+async function loadBarManifest(){
+  if(barManifest) return barManifest;
+  const r = await fetch('data/index.json');
+  if(!r.ok) throw new Error(r.status);
+  barManifest = await r.json();
+  return barManifest;
+}
+async function fillBarSel(){
+  try{
+    const m = await loadBarManifest();
+    const s = $('#barSel');
+    s.innerHTML = '';
+    m.forEach((e, i) => s.append(new Option(e.label, i)));
+    $('#barSec').style.display = '';
+  }catch(e){
+    $('#barSec').style.display = 'none';   // 오프라인·file:// 등에서는 숨김
+  }
+}
+$('#barLoad').onclick = async () => {
+  const msg = $('#barMsg');
+  try{
+    const m = await loadBarManifest();
+    const entry = m[$('#barSel').value];
+    if(!entry) return;
+    msg.textContent = '불러오는 중…';
+    const r = await fetch('data/' + entry.file);
+    if(!r.ok) throw new Error(r.status);
+    const d = await r.json();
+    const nid = $('#qbNode').value || '';
+    const existing = new Set(doc.bank.map(b => b.id));
+    let n = 0;
+    for(const it of d.items){
+      if(existing.has(it.id)) continue;
+      doc.bank.push({ id: it.id, nodeId: nid, type: 'mc', q: it.q,
+        choices: it.choices, a: it.a - 1, explain: it.explain || '' });
+      n++;
+    }
+    scheduleSave();
+    renderQbList();
+    render();
+    msg.textContent = n
+      ? n + '문제 추가됨 ✓' + (d.items.length - n ? ' (' + (d.items.length - n) + '문제는 이미 있음)' : '')
+      : '이 세트는 이미 모두 불러왔어요';
+  }catch(e){
+    msg.textContent = '불러오기 실패 — 인터넷 연결을 확인하세요';
+  }
+};
 function renderQbList(){
   const nid = $('#qbNode').value;
   const list = $('#qbList');
