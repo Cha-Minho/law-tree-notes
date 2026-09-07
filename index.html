@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#f6f4ef">
 <title>법학 쟁점노트</title>
 <style>
-*{box-sizing:border-box} :root{--bg:#f6f4ef;--panel:#fff;--fg:#24231f;--muted:#817d73;--line:#dedbd2;--soft:#eeece5;--accent:#315fa8;--danger:#b43d32;--shadow:0 7px 24px rgba(40,36,27,.07)}
+*{box-sizing:border-box}[hidden]{display:none!important} :root{--bg:#f6f4ef;--panel:#fff;--fg:#24231f;--muted:#817d73;--line:#dedbd2;--soft:#eeece5;--accent:#315fa8;--danger:#b43d32;--shadow:0 7px 24px rgba(40,36,27,.07)}
 @media(prefers-color-scheme:dark){:root{--bg:#15171b;--panel:#1d2026;--fg:#ecebe6;--muted:#969a9f;--line:#333840;--soft:#282c33;--accent:#83aaf0;--danger:#ef8077;--shadow:none}}
 html,body{height:100%;margin:0} body{background:var(--bg);color:var(--fg);font:15px/1.55 Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif}
 button,input,textarea,select{font:inherit} button{color:inherit}
@@ -16,13 +16,13 @@ header{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:
 .app{height:calc(100% - 58px);display:grid;grid-template-columns:minmax(270px,34%) 1fr;max-width:1320px;margin:auto}
 .sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;background:var(--panel)}
 .filters{padding:14px;border-bottom:1px solid var(--line)}.search-wrap{display:flex;gap:7px}.search{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--fg);padding:9px 11px;outline:none}.search:focus,.field:focus,.body-field:focus{border-color:var(--accent)}
-.tag-filter{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px;max-height:82px;overflow:auto}.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:3px 8px;border-radius:999px;font-size:12px;cursor:pointer}.chip:hover,.chip.on{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--panel))}
 .list{overflow:auto;padding:8px}.card{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:11px;border-radius:10px;cursor:pointer;margin-bottom:3px}.card:hover{background:var(--soft)}.card.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}
-.card-title{font-weight:700;display:flex;gap:7px;align-items:center}.star{color:#d29a00}.card-body{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}.tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}.tag{font-size:11px;color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:5px;padding:1px 5px}.type{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:0 5px;border-radius:5px;font-weight:500}
+.card-title{font-weight:700;display:flex;gap:7px;align-items:center}.star{color:#d29a00}.card-body{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}.type{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:0 5px;border-radius:5px;font-weight:500}
 .empty{color:var(--muted);text-align:center;padding:45px 20px}.editor{overflow:auto;padding:28px clamp(20px,5vw,70px) 45vh}.editor-inner{max-width:820px;margin:auto}.blank{height:100%;display:grid;place-items:center;color:var(--muted)}
 .editor-top{display:flex;gap:8px;align-items:flex-start}.title-field{flex:1;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--fg);font-size:25px;font-weight:750;padding:5px 2px 9px;outline:none}
 .icon-btn{border:1px solid var(--line);background:transparent;border-radius:8px;padding:7px 9px;cursor:pointer}.icon-btn:hover{background:var(--soft)}.icon-btn.on{color:#d29a00}
 .meta-grid{display:grid;grid-template-columns:160px 1fr;gap:12px;margin:18px 0}.label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}.field{width:100%;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:8px;padding:8px 10px;outline:none}
+.tag-picker{position:relative}.chosen-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}.chosen-tag{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--panel));color:var(--accent);border-radius:999px;padding:3px 7px 3px 9px;font-size:12px}.chosen-tag button{border:0;background:transparent;color:inherit;padding:0 2px;cursor:pointer;font-size:14px;line-height:1}.tag-suggestions{position:absolute;z-index:20;top:100%;left:0;right:0;margin-top:4px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:var(--shadow);padding:5px}.tag-suggestions button{display:flex;width:100%;justify-content:space-between;border:0;background:transparent;color:var(--fg);padding:7px 9px;border-radius:6px;cursor:pointer;text-align:left}.tag-suggestions button:hover,.tag-suggestions button:focus{background:var(--soft)}.tag-count{color:var(--muted);font-size:12px}.create-tag{color:var(--accent)!important}
 .body-field{width:100%;min-height:330px;resize:vertical;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:11px;padding:16px;line-height:1.75;outline:none;box-shadow:var(--shadow)}
 .save-state{height:22px;text-align:right;color:var(--muted);font-size:12px;margin-top:4px}.related{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.related h3{font-size:14px;margin:0 0 10px}.related-list{display:flex;gap:7px;flex-wrap:wrap}.related button{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 9px;cursor:pointer}.related button:hover{border-color:var(--accent)}
 dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:13px;padding:21px;width:min(92%,520px);box-shadow:var(--shadow)}dialog::backdrop{background:rgba(0,0,0,.45)}dialog h2{font-size:17px;margin:0 0 6px}dialog p{font-size:13px;color:var(--muted);margin:0 0 13px}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.sync-msg{min-height:21px;color:var(--accent);font-size:13px;margin-top:8px}
@@ -46,7 +46,6 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
   <aside class="sidebar">
     <div class="filters">
       <div class="search-wrap"><input class="search" id="search" placeholder="제목, 본문, 태그 검색" autocomplete="off"></div>
-      <div class="tag-filter" id="tagFilter"></div>
     </div>
     <div class="list" id="list"></div>
   </aside>
@@ -61,7 +60,12 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
       </div>
       <div class="meta-grid">
         <label><span class="label">유형</span><input class="field" id="typeField" list="types" placeholder="예: 쟁점, 학설, 판례"></label>
-        <label><span class="label">태그</span><input class="field" id="tagsField" placeholder="쉼표로 구분 · 예: 민법, 계약법, 취소"></label>
+        <div class="tag-picker" id="tagPicker">
+          <span class="label">태그</span>
+          <div class="chosen-tags" id="chosenTags"></div>
+          <input class="field" id="tagsField" placeholder="태그 검색 또는 새 태그 입력 후 Enter" autocomplete="off">
+          <div class="tag-suggestions" id="tagSuggestions" hidden></div>
+        </div>
       </div>
       <label><span class="label">내용</span><textarea class="body-field" id="bodyField" placeholder="학설, 판례의 입장, 검토, 의문점 등을 자유롭게 적어 주세요."></textarea></label>
       <div class="save-state" id="saveState"></div>
@@ -122,10 +126,10 @@ function loadDoc(){
   try{const old=localStorage.getItem(LS_OLD);if(old){const migrated=parseDoc(old);localStorage.setItem(LS_DOC,JSON.stringify(migrated));return migrated}}catch(e){}
   return sampleDoc();
 }
-let doc=loadDoc(),selectedId=null,query='',activeTag='';
+let doc=loadDoc(),selectedId=null,query='',tagPickerOpen=false;
 let cfg={};try{cfg=JSON.parse(localStorage.getItem(LS_CFG))||{}}catch(e){}
 let saveTimer=null;
-const app=$('#app'),listEl=$('#list'),tagFilter=$('#tagFilter'),countEl=$('#count');
+const app=$('#app'),listEl=$('#list'),countEl=$('#count');
 
 function saveCfg(){localStorage.setItem(LS_CFG,JSON.stringify(cfg))}
 function saveNow(){clearTimeout(saveTimer);saveTimer=null;doc.updatedAt=now();localStorage.setItem(LS_DOC,JSON.stringify(doc));$('#saveState').textContent='저장됨'}
@@ -135,37 +139,59 @@ function selected(){return doc.items.find(x=>x.id===selectedId)}
 function allTags(){const counts={};for(const x of doc.items)for(const t of x.tags)counts[t]=(counts[t]||0)+1;return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ko'))}
 function filtered(){
   const words=query.trim().toLocaleLowerCase('ko').split(/\s+/).filter(Boolean);
-  return doc.items.filter(x=>(!activeTag||x.tags.includes(activeTag))&&words.every(w=>textOf(x).includes(w))).sort((a,b)=>Number(b.star)-Number(a.star)||b.updatedAt-a.updatedAt)
+  return doc.items.filter(x=>words.every(w=>textOf(x).includes(w))).sort((a,b)=>Number(b.star)-Number(a.star)||b.updatedAt-a.updatedAt)
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderTags(){
-  const tags=allTags();tagFilter.innerHTML=tags.length?'<button class="chip '+(!activeTag?'on':'')+'" data-tag="">전체 '+doc.items.length+'</button>'+tags.map(([t,n])=>'<button class="chip '+(activeTag===t?'on':'')+'" data-tag="'+esc(t)+'">#'+esc(t)+' '+n+'</button>').join(''):'';
-  tagFilter.querySelectorAll('button').forEach(b=>b.onclick=()=>{activeTag=b.dataset.tag;render()});
-}
 function renderList(){
-  const items=filtered();countEl.textContent=query||activeTag?items.length+'개 검색됨':doc.items.length+'개';
-  listEl.innerHTML=items.length?items.map(x=>'<button class="card '+(x.id===selectedId?'active':'')+'" data-id="'+esc(x.id)+'"><div class="card-title">'+(x.star?'<span class="star">★</span>':'')+'<span>'+esc(x.title||'제목 없음')+'</span> '+(x.type?'<span class="type">'+esc(x.type)+'</span>':'')+'</div><div class="card-body">'+esc(x.body||'내용 없음')+'</div><div class="tags">'+x.tags.map(t=>'<span class="tag">#'+esc(t)+'</span>').join('')+'</div></button>').join(''):'<div class="empty">'+(query||activeTag?'검색 결과가 없습니다.':'새 쟁점을 추가해 보세요.')+'</div>';
+  const items=filtered();countEl.textContent=query?items.length+'개 검색됨':doc.items.length+'개';
+  listEl.innerHTML=items.length?items.map(x=>'<button class="card '+(x.id===selectedId?'active':'')+'" data-id="'+esc(x.id)+'"><div class="card-title">'+(x.star?'<span class="star">★</span>':'')+'<span>'+esc(x.title||'제목 없음')+'</span> '+(x.type?'<span class="type">'+esc(x.type)+'</span>':'')+'</div><div class="card-body">'+esc(x.body||'내용 없음')+'</div></button>').join(''):'<div class="empty">'+(query?'검색 결과가 없습니다.':'새 쟁점을 추가해 보세요.')+'</div>';
   listEl.querySelectorAll('.card').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
 }
 function renderEditor(){
   const x=selected();$('#blank').hidden=!!x;$('#editorInner').hidden=!x;if(!x)return;
-  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#tagsField').value=x.tags.join(', ');$('#bodyField').value=x.body;$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);
+  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#tagsField').value='';$('#bodyField').value=x.body;$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();
   const related=doc.items.filter(y=>y.id!==x.id&&y.tags.some(t=>x.tags.includes(t))).map(y=>({y,score:y.tags.filter(t=>x.tags.includes(t)).length})).sort((a,b)=>b.score-a.score||b.y.updatedAt-a.y.updatedAt).slice(0,8);
   $('#related').hidden=!related.length;$('#relatedList').innerHTML=related.map(({y,score})=>'<button data-id="'+esc(y.id)+'">'+esc(y.title||'제목 없음')+' <span class="type">'+score+'개 태그</span></button>').join('');
   $('#relatedList').querySelectorAll('button').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
 }
-function render(){renderTags();renderList();renderEditor()}
+function render(){renderList();renderEditor()}
 function openItem(id){selectedId=id;app.classList.add('editing');render();if(innerWidth>720)$('#titleField').focus()}
-function updateSelected(field,value){const x=selected();if(!x)return;x[field]=value;x.updatedAt=now();scheduleSave();renderList();if(field==='tags')renderTags();renderRelated()}
+function updateSelected(field,value){const x=selected();if(!x)return;x[field]=value;x.updatedAt=now();scheduleSave();renderList();renderRelated()}
 function renderRelated(){const x=selected();if(!x)return;const related=doc.items.filter(y=>y.id!==x.id&&y.tags.some(t=>x.tags.includes(t))).map(y=>({y,score:y.tags.filter(t=>x.tags.includes(t)).length})).sort((a,b)=>b.score-a.score||b.y.updatedAt-a.y.updatedAt).slice(0,8);$('#related').hidden=!related.length;$('#relatedList').innerHTML=related.map(({y,score})=>'<button data-id="'+esc(y.id)+'">'+esc(y.title||'제목 없음')+' <span class="type">'+score+'개 태그</span></button>').join('');$('#relatedList').querySelectorAll('button').forEach(b=>b.onclick=()=>openItem(b.dataset.id))}
+function renderTagPicker(){
+  const x=selected();if(!x)return;
+  const chosen=$('#chosenTags'),field=$('#tagsField'),menu=$('#tagSuggestions');
+  chosen.innerHTML=x.tags.map(t=>'<span class="chosen-tag">#'+esc(t)+' <button type="button" data-tag="'+esc(t)+'" aria-label="'+esc(t)+' 태그 제거">×</button></span>').join('');
+  chosen.querySelectorAll('button').forEach(b=>b.onclick=()=>removeTag(b.dataset.tag));
+  const needle=field.value.trim().replace(/^#/,'').toLocaleLowerCase('ko');
+  const available=allTags().filter(([t])=>!x.tags.includes(t)&&(!needle||t.toLocaleLowerCase('ko').includes(needle))).slice(0,12);
+  const exact=allTags().some(([t])=>t.toLocaleLowerCase('ko')===needle);
+  let html='';
+  if(needle&&!exact)html+='<button type="button" class="create-tag" data-value="'+esc(field.value.trim())+'"><span>＋ #'+esc(field.value.trim().replace(/^#/,''))+' 만들기</span></button>';
+  html+=available.map(([t,n])=>'<button type="button" data-value="'+esc(t)+'"><span>#'+esc(t)+'</span><span class="tag-count">'+n+'개 쟁점</span></button>').join('');
+  menu.innerHTML=html;menu.hidden=!tagPickerOpen||!html;
+  menu.querySelectorAll('button').forEach(b=>b.onmousedown=e=>{e.preventDefault();addTag(b.dataset.value)});
+}
+function addTag(value){
+  const x=selected(),tag=cleanTags([value])[0];if(!x||!tag)return;
+  if(!x.tags.some(t=>t.toLocaleLowerCase('ko')===tag.toLocaleLowerCase('ko')))x.tags.push(tag);
+  $('#tagsField').value='';tagPickerOpen=true;updateSelected('tags',x.tags);renderTagPicker();$('#tagsField').focus();
+}
+function removeTag(tag){const x=selected();if(!x)return;updateSelected('tags',x.tags.filter(t=>t!==tag));renderTagPicker()}
 
 $('#search').oninput=e=>{query=e.target.value;renderList()};
 $('#newBtn').onclick=()=>{const x=normalizeItem({title:'',type:'쟁점',tags:[],body:''});doc.items.push(x);selectedId=x.id;scheduleSave();render();app.classList.add('editing');$('#titleField').focus()};
 $('#backBtn').onclick=()=>app.classList.remove('editing');
 $('#titleField').oninput=e=>updateSelected('title',e.target.value);
 $('#typeField').oninput=e=>updateSelected('type',e.target.value);
-$('#tagsField').onchange=e=>updateSelected('tags',cleanTags(e.target.value));
-$('#tagsField').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();e.target.blur()}};
+$('#tagsField').onfocus=()=>{tagPickerOpen=true;renderTagPicker()};
+$('#tagsField').oninput=renderTagPicker;
+$('#tagsField').onblur=()=>{setTimeout(()=>{tagPickerOpen=false;renderTagPicker()},120)};
+$('#tagsField').onkeydown=e=>{
+  if(e.key==='Enter'||e.key===','){e.preventDefault();addTag(e.target.value)}
+  else if(e.key==='Backspace'&&!e.target.value){const x=selected();if(x&&x.tags.length)removeTag(x.tags[x.tags.length-1])}
+  else if(e.key==='Escape'){tagPickerOpen=false;renderTagPicker();e.target.blur()}
+};
 $('#bodyField').oninput=e=>updateSelected('body',e.target.value);
 $('#starBtn').onclick=()=>{const x=selected();x.star=!x.star;x.updatedAt=now();scheduleSave();render()};
 $('#deleteBtn').onclick=()=>{const x=selected();if(!x||!confirm('“'+(x.title||'제목 없음')+'”을 삭제할까요?'))return;doc.items=doc.items.filter(y=>y.id!==x.id);selectedId=null;scheduleSave();app.classList.remove('editing');render()};
