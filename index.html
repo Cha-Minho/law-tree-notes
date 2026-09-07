@@ -17,13 +17,15 @@ header{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:
 .app{height:calc(100% - 58px);display:grid;grid-template-columns:minmax(270px,34%) 1fr;max-width:1320px;margin:auto}
 .sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;background:var(--panel)}
 .filters{padding:14px;border-bottom:1px solid var(--line)}.search-wrap{display:flex;gap:7px}.search{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--fg);padding:9px 11px;outline:none}.search:focus,.field:focus,.body-field:focus{border-color:var(--accent)}
-.list{overflow:auto;padding:8px}.card{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:11px;border-radius:10px;cursor:pointer;margin-bottom:3px}.card:hover{background:var(--soft)}.card.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}
+.folder-section{border-bottom:1px solid var(--line);padding:9px 8px;max-height:42%;overflow:auto;flex:0 0 auto}.folder-head{display:flex;align-items:center;padding:0 5px 5px;color:var(--muted);font-size:12px;font-weight:700}.folder-head span{margin-right:auto}.mini-btn{border:0;background:transparent;color:var(--muted);border-radius:5px;padding:2px 6px;cursor:pointer}.mini-btn:hover{background:var(--soft);color:var(--fg)}
+.folder-row{display:flex;align-items:center;padding-left:calc(var(--depth,0) * 15px);border-radius:7px}.folder-row:hover{background:var(--soft)}.folder-select{border:0;background:transparent;color:var(--fg);padding:5px 4px;cursor:pointer;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.folder-toggle,.folder-spacer{width:20px;flex:0 0 20px;border:0;background:transparent;color:var(--muted);padding:4px 0}.folder-toggle{cursor:pointer}.folder-row.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel))}.folder-row.active .folder-select{color:var(--accent);font-weight:650}.folder-icon{color:var(--muted);margin-right:5px}.folder-count{font-size:11px;color:var(--muted);padding:0 5px}.folder-actions{display:flex;opacity:.3}.folder-row:hover .folder-actions,.folder-row:focus-within .folder-actions{opacity:1}.folder-actions button{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:2px 4px;border-radius:4px}.folder-actions button:hover{color:var(--fg);background:var(--panel)}.smart-folders{margin-bottom:5px;border-bottom:1px solid var(--soft);padding-bottom:5px}
+.list-head{display:flex;align-items:center;gap:6px;padding:8px 13px 2px;color:var(--muted);font-size:12px;flex:0 0 auto}.list-head strong{color:var(--fg);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.list{overflow:auto;padding:5px 8px 8px;flex:1}.card{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:11px;border-radius:10px;cursor:pointer;margin-bottom:3px}.card:hover{background:var(--soft)}.card.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}
 .card-title{font-weight:700;display:flex;gap:7px;align-items:center}.star{color:#d29a00}.card-body{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}.type{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:0 5px;border-radius:5px;font-weight:500}
 .empty{color:var(--muted);text-align:center;padding:45px 20px}.editor{overflow:auto;padding:28px clamp(20px,5vw,70px) 45vh}.editor-inner{max-width:820px;margin:auto}.blank{height:100%;display:grid;place-items:center;color:var(--muted)}
 .editor-top{display:flex;gap:8px;align-items:flex-start}.title-field{flex:1;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--fg);font-size:25px;font-weight:750;padding:5px 2px 9px;outline:none}
 .icon-btn{border:1px solid var(--line);background:transparent;border-radius:8px;padding:7px 9px;cursor:pointer}.icon-btn:hover{background:var(--soft)}.icon-btn.on{color:#d29a00}
 .meta-grid{display:grid;grid-template-columns:160px 1fr;gap:12px;margin:18px 0}.label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}.field{width:100%;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:8px;padding:8px 10px;outline:none}
-.tag-picker{position:relative}.chosen-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}.chosen-tag{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--panel));color:var(--accent);border-radius:999px;padding:3px 7px 3px 9px;font-size:12px}.chosen-tag button{border:0;background:transparent;color:inherit;padding:0 2px;cursor:pointer;font-size:14px;line-height:1}.tag-suggestions{position:absolute;z-index:20;top:100%;left:0;right:0;margin-top:4px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:var(--shadow);padding:5px}.tag-suggestions button{display:flex;width:100%;justify-content:space-between;border:0;background:transparent;color:var(--fg);padding:7px 9px;border-radius:6px;cursor:pointer;text-align:left}.tag-suggestions button:hover,.tag-suggestions button:focus{background:var(--soft)}.tag-count{color:var(--muted);font-size:12px}.create-tag{color:var(--accent)!important}
+.tag-picker{position:relative;grid-column:1/-1}.chosen-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}.chosen-tag{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--panel));color:var(--accent);border-radius:999px;padding:3px 7px 3px 9px;font-size:12px}.chosen-tag button{border:0;background:transparent;color:inherit;padding:0 2px;cursor:pointer;font-size:14px;line-height:1}.tag-suggestions{position:absolute;z-index:20;top:100%;left:0;right:0;margin-top:4px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:var(--shadow);padding:5px}.tag-suggestions button{display:flex;width:100%;justify-content:space-between;border:0;background:transparent;color:var(--fg);padding:7px 9px;border-radius:6px;cursor:pointer;text-align:left}.tag-suggestions button:hover,.tag-suggestions button:focus{background:var(--soft)}.tag-count{color:var(--muted);font-size:12px}.create-tag{color:var(--accent)!important}
 .body-field{width:100%;min-height:330px;resize:vertical;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:11px;padding:16px;line-height:1.75;outline:none;box-shadow:var(--shadow)}
 .save-state{height:22px;text-align:right;color:var(--muted);font-size:12px;margin-top:4px}.related{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.related h3{font-size:14px;margin:0 0 10px}.related-list{display:flex;gap:7px;flex-wrap:wrap}.related button{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 9px;cursor:pointer}.related button:hover{border-color:var(--accent)}
 dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:13px;padding:21px;width:min(92%,520px);box-shadow:var(--shadow)}dialog::backdrop{background:rgba(0,0,0,.45)}dialog h2{font-size:17px;margin:0 0 6px}dialog p{font-size:13px;color:var(--muted);margin:0 0 13px}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.sync-msg{min-height:21px;color:var(--accent);font-size:13px;margin-top:8px}
@@ -48,6 +50,12 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
     <div class="filters">
       <div class="search-wrap"><input class="search" id="search" placeholder="제목, 본문, 태그 검색" autocomplete="off"></div>
     </div>
+    <section class="folder-section">
+      <div class="folder-head"><span>폴더</span><button class="mini-btn" id="addRootFolder" title="최상위 폴더 추가">＋</button></div>
+      <div class="smart-folders" id="smartFolders"></div>
+      <div id="folderTree"></div>
+    </section>
+    <div class="list-head"><strong id="listTitle">전체 쟁점</strong><span id="listCount"></span></div>
     <div class="list" id="list"></div>
   </aside>
   <main class="editor" id="editor">
@@ -61,6 +69,7 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
       </div>
       <div class="meta-grid">
         <label><span class="label">유형</span><input class="field" id="typeField" list="types" placeholder="예: 쟁점, 학설, 판례"></label>
+        <label><span class="label">폴더</span><select class="field" id="folderField"></select></label>
         <div class="tag-picker" id="tagPicker">
           <span class="label">태그</span>
           <div class="chosen-tags" id="chosenTags"></div>
@@ -84,6 +93,13 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
   <div class="sync-msg" id="syncMsg"></div>
   <div class="dialog-actions"><button class="btn" id="pullBtn">가져오기</button><button class="btn primary" id="pushBtn">업로드</button><button class="btn" id="closeSync">닫기</button></div>
 </dialog>
+<dialog id="folderDlg">
+  <h2 id="folderDlgTitle">새 폴더</h2>
+  <p id="folderDlgHint"></p>
+  <label><span class="label">폴더 이름</span><input class="field" id="folderNameField" autocomplete="off" placeholder="예: 채권법"></label>
+  <div class="sync-msg" id="folderMsg"></div>
+  <div class="dialog-actions"><button class="btn" id="cancelFolder">취소</button><button class="btn primary" id="saveFolder">저장</button></div>
+</dialog>
 <div class="toast" id="toast"></div>
 <script>
 const $=s=>document.querySelector(s);
@@ -94,27 +110,62 @@ const now=()=>Date.now();
 const cleanTags=value=>[...new Set((Array.isArray(value)?value:String(value||'').split(',')).map(v=>String(v).trim().replace(/^#/,'')).filter(Boolean))];
 const textOf=item=>[item.title,item.body,item.type,...item.tags].join(' ').toLocaleLowerCase('ko');
 
-function sampleDoc(){return{version:2,title:'법학 쟁점노트',updatedAt:now(),items:[
-  {id:uid(),title:'착오에 의한 의사표시',type:'쟁점',tags:['민법','의사표시','취소'],body:'민법 제109조의 요건과 효과, 동기의 착오 및 중대한 과실 여부를 정리해 보세요.',star:false,createdAt:now(),updatedAt:now()},
-  {id:uid(),title:'동기의 착오',type:'판례',tags:['민법','의사표시','착오'],body:'판례는 동기가 상대방에게 표시되어 법률행위의 내용이 된 경우에 내용의 착오로서 취소할 수 있다고 본다.',star:false,createdAt:now(),updatedAt:now()}
-]}}
-function normalizeItem(x){return{id:String(x.id||uid()),title:String(x.title??x.text??''),type:String(x.type&&TYPE_MAP[x.type]||x.type||'쟁점'),tags:cleanTags(x.tags),body:String(x.body||''),source:String(x.source||''),star:!!x.star,createdAt:+x.createdAt||now(),updatedAt:+x.updatedAt||now()}}
-function normalizeDoc(d){return{version:2,title:String(d.title||'법학 쟁점노트'),updatedAt:+d.updatedAt||now(),items:(Array.isArray(d.items)?d.items:[]).map(normalizeItem)}}
+function sampleDoc(){
+  const civil=uid(),act=uid();
+  return{version:3,title:'법학 쟁점노트',updatedAt:now(),folders:[
+    {id:civil,name:'민법',parentId:null,createdAt:now()},
+    {id:act,name:'법률행위',parentId:civil,createdAt:now()}
+  ],items:[
+    {id:uid(),title:'착오에 의한 의사표시',type:'쟁점',folderId:act,tags:['민법','의사표시','취소'],body:'민법 제109조의 요건과 효과, 동기의 착오 및 중대한 과실 여부를 정리해 보세요.',star:false,createdAt:now(),updatedAt:now()},
+    {id:uid(),title:'동기의 착오',type:'판례',folderId:act,tags:['민법','의사표시','착오'],body:'판례는 동기가 상대방에게 표시되어 법률행위의 내용이 된 경우에 내용의 착오로서 취소할 수 있다고 본다.',star:false,createdAt:now(),updatedAt:now()}
+  ]}
+}
+function normalizeItem(x){return{id:String(x.id||uid()),title:String(x.title??x.text??''),type:String(x.type&&TYPE_MAP[x.type]||x.type||'쟁점'),folderId:x.folderId?String(x.folderId):null,tags:cleanTags(x.tags),body:String(x.body||''),source:String(x.source||''),star:!!x.star,createdAt:+x.createdAt||now(),updatedAt:+x.updatedAt||now()}}
+function normalizeFolder(x){return{id:String(x.id||uid()),name:String(x.name||'새 폴더').trim()||'새 폴더',parentId:x.parentId?String(x.parentId):null,createdAt:+x.createdAt||now()}}
+function ensureFolderPath(folders,names){
+  let parentId=null;
+  for(const raw of names){
+    const name=String(raw).trim();if(!name)continue;
+    let folder=folders.find(f=>f.parentId===parentId&&f.name===name);
+    if(!folder){folder=normalizeFolder({name,parentId});folders.push(folder)}
+    parentId=folder.id;
+  }
+  return parentId;
+}
+function normalizeDoc(d){
+  const items=(Array.isArray(d.items)?d.items:[]).map(normalizeItem);
+  const folders=(Array.isArray(d.folders)?d.folders:[]).map(normalizeFolder);
+  if(!folders.length){
+    for(const item of items){
+      const prefix='기존 경로: ';
+      if(item.source.startsWith(prefix))item.folderId=ensureFolderPath(folders,item.source.slice(prefix.length).split(' › '));
+    }
+  }
+  const ids=new Set(folders.map(f=>f.id));
+  for(const folder of folders)if(folder.parentId&&!ids.has(folder.parentId))folder.parentId=null;
+  for(const item of items)if(item.folderId&&!ids.has(item.folderId))item.folderId=null;
+  return{version:3,title:String(d.title||'법학 쟁점노트'),updatedAt:+d.updatedAt||now(),folders,items};
+}
 function migrateTree(d){
-  const items=[];
-  function walk(nodes,path=[]){
+  const items=[],folders=[];
+  function walk(nodes,parentId=null,path=[]){
     for(const n of nodes||[]){
       const title=String(n.text||'').trim(),body=String(n.body||'').trim();
       const next=title?[...path,title]:path;
+      let folderId=parentId;
+      if(title&&Array.isArray(n.children)&&n.children.length){
+        const folder=normalizeFolder({id:'folder-'+String(n.id||uid()),name:title,parentId});
+        folders.push(folder);folderId=folder.id;
+      }
       if(title||body){
         const subject=path[0]&&path[0]!==title?path[0]:'';
-        items.push(normalizeItem({id:n.id,title:title||'제목 없음',type:TYPE_MAP[n.type]||'일반',tags:subject?[subject]:[],body,source:path.length?'기존 경로: '+path.join(' › '):'',star:n.star,createdAt:d.updatedAt,updatedAt:d.updatedAt}));
+        items.push(normalizeItem({id:n.id,title:title||'제목 없음',type:TYPE_MAP[n.type]||'일반',folderId,tags:subject?[subject]:[],body,source:path.length?'기존 경로: '+path.join(' › '):'',star:n.star,createdAt:d.updatedAt,updatedAt:d.updatedAt}));
       }
-      walk(n.children,next);
+      walk(n.children,folderId,next);
     }
   }
   walk(d.tree);
-  return{version:2,title:String(d.title||'법학 쟁점노트').replace('트리','쟁점'),updatedAt:+d.updatedAt||now(),items};
+  return{version:3,title:String(d.title||'법학 쟁점노트').replace('트리','쟁점'),updatedAt:+d.updatedAt||now(),folders,items};
 }
 function parseDoc(raw){
   const d=typeof raw==='string'?JSON.parse(raw):raw;
@@ -123,14 +174,15 @@ function parseDoc(raw){
   throw new Error('지원하지 않는 데이터 형식');
 }
 function loadDoc(){
-  try{const saved=localStorage.getItem(LS_DOC);if(saved)return parseDoc(saved)}catch(e){}
+  try{const saved=localStorage.getItem(LS_DOC);if(saved){const parsed=parseDoc(saved);localStorage.setItem(LS_DOC,JSON.stringify(parsed));return parsed}}catch(e){}
   try{const old=localStorage.getItem(LS_OLD);if(old){const migrated=parseDoc(old);localStorage.setItem(LS_DOC,JSON.stringify(migrated));return migrated}}catch(e){}
   return sampleDoc();
 }
-let doc=loadDoc(),selectedId=null,query='',tagPickerOpen=false;
+let doc=loadDoc(),selectedId=null,query='',tagPickerOpen=false,selectedView='all';
 let cfg={};try{cfg=JSON.parse(localStorage.getItem(LS_CFG))||{}}catch(e){}
+let collapsedFolders=new Set(Array.isArray(cfg.collapsedFolders)?cfg.collapsedFolders:[]);
 let saveTimer=null;
-const app=$('#app'),listEl=$('#list'),countEl=$('#count');
+const app=$('#app'),listEl=$('#list'),countEl=$('#count'),folderTree=$('#folderTree');
 
 function saveCfg(){localStorage.setItem(LS_CFG,JSON.stringify(cfg))}
 function saveNow(){clearTimeout(saveTimer);saveTimer=null;doc.updatedAt=now();localStorage.setItem(LS_DOC,JSON.stringify(doc));$('#saveState').textContent='저장됨'}
@@ -138,26 +190,94 @@ function scheduleSave(){doc.updatedAt=now();$('#saveState').textContent='저장 
 addEventListener('beforeunload',()=>{if(saveTimer)saveNow()});
 function selected(){return doc.items.find(x=>x.id===selectedId)}
 function allTags(){const counts={};for(const x of doc.items)for(const t of x.tags)counts[t]=(counts[t]||0)+1;return Object.entries(counts).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0],'ko'))}
+function folderById(id){return doc.folders.find(f=>f.id===id)}
+function folderChildren(parentId){return doc.folders.filter(f=>f.parentId===parentId).sort((a,b)=>a.name.localeCompare(b.name,'ko'))}
+function descendantIds(id){
+  const ids=new Set([id]),queue=[id];
+  while(queue.length){const parent=queue.shift();for(const f of doc.folders)if(f.parentId===parent&&!ids.has(f.id)){ids.add(f.id);queue.push(f.id)}}
+  return ids;
+}
+function itemsInView(view){
+  if(view==='all')return doc.items;
+  if(view==='recent')return doc.items.filter(x=>x.updatedAt>=now()-7*864e5);
+  if(view==='starred')return doc.items.filter(x=>x.star);
+  if(view==='unfiled')return doc.items.filter(x=>!x.folderId);
+  const ids=descendantIds(view);return doc.items.filter(x=>x.folderId&&ids.has(x.folderId));
+}
+function viewName(view){
+  if(view==='all')return'전체 쟁점';if(view==='recent')return'최근 수정';if(view==='starred')return'중요 쟁점';if(view==='unfiled')return'미분류';
+  const names=[];let f=folderById(view),guard=0;while(f&&guard++<50){names.unshift(f.name);f=folderById(f.parentId)}return names.join(' / ')||'전체 쟁점';
+}
 function filtered(){
   const words=query.trim().toLocaleLowerCase('ko').split(/\s+/).filter(Boolean);
-  return doc.items.filter(x=>words.every(w=>textOf(x).includes(w))).sort((a,b)=>Number(b.star)-Number(a.star)||b.updatedAt-a.updatedAt)
+  const source=words.length?doc.items:itemsInView(selectedView);
+  return source.filter(x=>words.every(w=>textOf(x).includes(w))).sort((a,b)=>Number(b.star)-Number(a.star)||b.updatedAt-a.updatedAt)
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderFolders(){
+  const smart=[
+    ['all','▤','전체 쟁점',doc.items.length],
+    ['recent','◷','최근 수정',itemsInView('recent').length],
+    ['starred','★','중요 쟁점',itemsInView('starred').length],
+    ['unfiled','◇','미분류',itemsInView('unfiled').length]
+  ];
+  $('#smartFolders').innerHTML=smart.map(([id,icon,name,n])=>'<div class="folder-row '+(selectedView===id?'active':'')+'"><button class="folder-select" data-view="'+id+'"><span class="folder-icon">'+icon+'</span>'+name+'</button><span class="folder-count">'+n+'</span></div>').join('');
+  const visited=new Set();
+  function rows(parentId,depth){
+    return folderChildren(parentId).map(f=>{
+      if(visited.has(f.id))return'';visited.add(f.id);
+      const count=itemsInView(f.id).length,hasChildren=doc.folders.some(x=>x.parentId===f.id),collapsed=collapsedFolders.has(f.id);
+      const toggle=hasChildren?'<button class="folder-toggle" data-toggle="'+esc(f.id)+'" title="'+(collapsed?'펼치기':'접기')+'">'+(collapsed?'▸':'▾')+'</button>':'<span class="folder-spacer"></span>';
+      return'<div class="folder-row '+(selectedView===f.id?'active':'')+'" style="--depth:'+depth+'">'+toggle+'<button class="folder-select" data-view="'+esc(f.id)+'">'+esc(f.name)+'</button><span class="folder-count">'+count+'</span><span class="folder-actions"><button data-action="add" data-id="'+esc(f.id)+'" title="하위 폴더 추가">＋</button><button data-action="rename" data-id="'+esc(f.id)+'" title="이름 변경">✎</button><button data-action="delete" data-id="'+esc(f.id)+'" title="폴더 삭제">×</button></span></div>'+(collapsed?'':rows(f.id,depth+1))
+    }).join('');
+  }
+  folderTree.innerHTML=rows(null,0);
+  document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>{selectedView=b.dataset.view;query='';$('#search').value='';render()});
+  folderTree.querySelectorAll('[data-toggle]').forEach(b=>b.onclick=()=>{const id=b.dataset.toggle;if(collapsedFolders.has(id))collapsedFolders.delete(id);else collapsedFolders.add(id);cfg.collapsedFolders=[...collapsedFolders];saveCfg();renderFolders()});
+  folderTree.querySelectorAll('[data-action]').forEach(b=>b.onclick=e=>{e.stopPropagation();const id=b.dataset.id;if(b.dataset.action==='add')addFolder(id);if(b.dataset.action==='rename')renameFolder(id);if(b.dataset.action==='delete')deleteFolder(id)});
+}
+let folderDialogState=null;
+function addFolder(parentId=null){
+  folderDialogState={mode:'add',parentId};$('#folderDlgTitle').textContent=parentId?'하위 폴더 만들기':'새 폴더 만들기';$('#folderDlgHint').textContent=parentId?'위치: '+viewName(parentId):'최상위 폴더로 생성합니다.';$('#folderNameField').value='';$('#folderMsg').textContent='';$('#folderDlg').showModal();$('#folderNameField').focus();
+}
+function renameFolder(id){
+  const folder=folderById(id);if(!folder)return;folderDialogState={mode:'rename',id,parentId:folder.parentId};$('#folderDlgTitle').textContent='폴더 이름 변경';$('#folderDlgHint').textContent='위치: '+(folder.parentId?viewName(folder.parentId):'최상위');$('#folderNameField').value=folder.name;$('#folderMsg').textContent='';$('#folderDlg').showModal();$('#folderNameField').select();
+}
+function saveFolderDialog(){
+  if(!folderDialogState)return;const clean=$('#folderNameField').value.trim();if(!clean){$('#folderMsg').textContent='폴더 이름을 입력하세요.';return}
+  const {mode,parentId,id}=folderDialogState;
+  if(doc.folders.some(f=>f.id!==id&&f.parentId===parentId&&f.name===clean)){ $('#folderMsg').textContent='같은 위치에 동일한 폴더가 있습니다.';return }
+  if(mode==='add'){const folder=normalizeFolder({name:clean,parentId});doc.folders.push(folder);selectedView=folder.id}
+  else{const folder=folderById(id);if(folder)folder.name=clean}
+  folderDialogState=null;$('#folderDlg').close();scheduleSave();render();
+}
+function deleteFolder(id){
+  const folder=folderById(id);if(!folder||!confirm('“'+folder.name+'” 폴더만 삭제할까요?\n쟁점과 하위 폴더는 상위 폴더로 이동합니다.'))return;
+  for(const item of doc.items)if(item.folderId===id)item.folderId=folder.parentId;
+  for(const child of doc.folders)if(child.parentId===id)child.parentId=folder.parentId;
+  doc.folders=doc.folders.filter(f=>f.id!==id);if(selectedView===id)selectedView=folder.parentId||'all';scheduleSave();render();toast('폴더만 삭제했습니다');
+}
+function folderOptions(){
+  let html='<option value="">미분류</option>',visited=new Set();
+  function add(parentId,depth){for(const f of folderChildren(parentId)){if(visited.has(f.id))continue;visited.add(f.id);html+='<option value="'+esc(f.id)+'">'+'　'.repeat(depth)+esc(f.name)+'</option>';add(f.id,depth+1)}}
+  add(null,0);return html;
+}
 function renderList(){
   const items=filtered();countEl.textContent=query?items.length+'개 검색됨':doc.items.length+'개';
+  $('#listTitle').textContent=query?'전체 검색':viewName(selectedView);$('#listCount').textContent=items.length+'개';
   listEl.innerHTML=items.length?items.map(x=>'<button class="card '+(x.id===selectedId?'active':'')+'" data-id="'+esc(x.id)+'"><div class="card-title">'+(x.star?'<span class="star">★</span>':'')+'<span>'+esc(x.title||'제목 없음')+'</span> '+(x.type?'<span class="type">'+esc(x.type)+'</span>':'')+'</div><div class="card-body">'+esc(x.body||'내용 없음')+'</div></button>').join(''):'<div class="empty">'+(query?'검색 결과가 없습니다.':'새 쟁점을 추가해 보세요.')+'</div>';
   listEl.querySelectorAll('.card').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
 }
 function renderEditor(){
   const x=selected();$('#blank').hidden=!!x;$('#editorInner').hidden=!x;if(!x)return;
-  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#tagsField').value='';$('#bodyField').value=x.body;$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();
+  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#folderField').innerHTML=folderOptions();$('#folderField').value=x.folderId||'';$('#tagsField').value='';$('#bodyField').value=x.body;$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();
   const related=doc.items.filter(y=>y.id!==x.id&&y.tags.some(t=>x.tags.includes(t))).map(y=>({y,score:y.tags.filter(t=>x.tags.includes(t)).length})).sort((a,b)=>b.score-a.score||b.y.updatedAt-a.y.updatedAt).slice(0,8);
   $('#related').hidden=!related.length;$('#relatedList').innerHTML=related.map(({y,score})=>'<button data-id="'+esc(y.id)+'">'+esc(y.title||'제목 없음')+' <span class="type">'+score+'개 태그</span></button>').join('');
   $('#relatedList').querySelectorAll('button').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
 }
-function render(){renderList();renderEditor()}
-function openItem(id){selectedId=id;app.classList.add('editing');render();if(innerWidth>720)$('#titleField').focus()}
-function updateSelected(field,value){const x=selected();if(!x)return;x[field]=value;x.updatedAt=now();scheduleSave();renderList();renderRelated()}
+function render(){renderFolders();renderList();renderEditor()}
+function openItem(id){selectedId=id;const x=selected();if(x&&!query&&!itemsInView(selectedView).some(y=>y.id===id))selectedView=x.folderId||'unfiled';app.classList.add('editing');render();if(innerWidth>720)$('#titleField').focus()}
+function updateSelected(field,value){const x=selected();if(!x)return;x[field]=value;x.updatedAt=now();scheduleSave();renderFolders();renderList();renderRelated()}
 function renderRelated(){const x=selected();if(!x)return;const related=doc.items.filter(y=>y.id!==x.id&&y.tags.some(t=>x.tags.includes(t))).map(y=>({y,score:y.tags.filter(t=>x.tags.includes(t)).length})).sort((a,b)=>b.score-a.score||b.y.updatedAt-a.y.updatedAt).slice(0,8);$('#related').hidden=!related.length;$('#relatedList').innerHTML=related.map(({y,score})=>'<button data-id="'+esc(y.id)+'">'+esc(y.title||'제목 없음')+' <span class="type">'+score+'개 태그</span></button>').join('');$('#relatedList').querySelectorAll('button').forEach(b=>b.onclick=()=>openItem(b.dataset.id))}
 function renderTagPicker(){
   const x=selected();if(!x)return;
@@ -181,10 +301,12 @@ function addTag(value){
 function removeTag(tag){const x=selected();if(!x)return;updateSelected('tags',x.tags.filter(t=>t!==tag));renderTagPicker()}
 
 $('#search').oninput=e=>{query=e.target.value;renderList()};
-$('#newBtn').onclick=()=>{const x=normalizeItem({title:'',type:'쟁점',tags:[],body:''});doc.items.push(x);selectedId=x.id;scheduleSave();render();app.classList.add('editing');$('#titleField').focus()};
+$('#addRootFolder').onclick=()=>addFolder(null);
+$('#newBtn').onclick=()=>{const folderId=folderById(selectedView)?selectedView:null;const x=normalizeItem({title:'',type:'쟁점',folderId,tags:[],body:''});doc.items.push(x);selectedId=x.id;scheduleSave();render();app.classList.add('editing');$('#titleField').focus()};
 $('#backBtn').onclick=()=>app.classList.remove('editing');
 $('#titleField').oninput=e=>updateSelected('title',e.target.value);
 $('#typeField').oninput=e=>updateSelected('type',e.target.value);
+$('#folderField').onchange=e=>{const x=selected();if(!x)return;x.folderId=e.target.value||null;selectedView=x.folderId||'unfiled';x.updatedAt=now();scheduleSave();render()};
 $('#tagsField').onfocus=()=>{tagPickerOpen=true;renderTagPicker()};
 $('#tagsField').oninput=renderTagPicker;
 $('#tagsField').onblur=()=>{setTimeout(()=>{tagPickerOpen=false;renderTagPicker()},120)};
@@ -196,6 +318,9 @@ $('#tagsField').onkeydown=e=>{
 $('#bodyField').oninput=e=>updateSelected('body',e.target.value);
 $('#starBtn').onclick=()=>{const x=selected();x.star=!x.star;x.updatedAt=now();scheduleSave();render()};
 $('#deleteBtn').onclick=()=>{const x=selected();if(!x||!confirm('“'+(x.title||'제목 없음')+'”을 삭제할까요?'))return;doc.items=doc.items.filter(y=>y.id!==x.id);selectedId=null;scheduleSave();app.classList.remove('editing');render()};
+$('#saveFolder').onclick=saveFolderDialog;
+$('#cancelFolder').onclick=()=>{folderDialogState=null;$('#folderDlg').close()};
+$('#folderNameField').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();saveFolderDialog()}};
 
 function download(name,data){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'application/json'}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),0)}
 $('#exportBtn').onclick=()=>{if(saveTimer)saveNow();download('법학-쟁점노트-'+new Date().toISOString().slice(0,10)+'.json',JSON.stringify(doc,null,2));toast('JSON으로 내보냈습니다')};
