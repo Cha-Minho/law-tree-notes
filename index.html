@@ -9,17 +9,17 @@
 <style>
 *{box-sizing:border-box}[hidden]{display:none!important} :root{--bg:#f6f4ef;--panel:#fff;--fg:#24231f;--muted:#817d73;--line:#dedbd2;--soft:#eeece5;--accent:#315fa8;--danger:#b43d32;--shadow:0 7px 24px rgba(40,36,27,.07)}
 @media(prefers-color-scheme:dark){:root{--bg:#15171b;--panel:#1d2026;--fg:#ecebe6;--muted:#969a9f;--line:#333840;--soft:#282c33;--accent:#83aaf0;--danger:#ef8077;--shadow:none}}
-html,body{height:100%;margin:0} body{background:var(--bg);color:var(--fg);font:15px/1.55 Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif}
+html,body{height:100%;margin:0;overflow:hidden} body{background:var(--bg);color:var(--fg);font:15px/1.55 Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif}
 button,input,textarea,select{font:inherit} button{color:inherit}
 header{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;padding:0 18px;background:var(--panel)}
 .brand{font-size:17px;font-weight:750;white-space:nowrap}.count{font-size:12px;color:var(--muted);margin-right:auto}
 .header-actions{display:flex;gap:6px}.btn{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 11px;cursor:pointer}.btn:hover{background:var(--soft)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.danger{color:var(--danger)}
-.app{height:calc(100% - 58px);width:100%;display:grid;grid-template-columns:clamp(300px,30vw,420px) minmax(0,1fr)}
-.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;background:var(--panel)}
+.app{height:calc(100% - 58px);width:100%;min-height:0;overflow:hidden;display:grid;grid-template-columns:clamp(300px,30vw,420px) minmax(0,1fr)}
+.sidebar{border-right:1px solid var(--line);display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;background:var(--panel)}
 .filters{padding:14px;border-bottom:1px solid var(--line)}.search-wrap{display:flex;gap:7px}.search{width:100%;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--fg);padding:9px 11px;outline:none}.search:focus,.field:focus,.body-field:focus{border-color:var(--accent)}
 .folder-section{border-bottom:1px solid var(--line);padding:9px 8px;max-height:42%;overflow:auto;flex:0 0 auto}.folder-head{display:flex;align-items:center;padding:0 5px 5px;color:var(--muted);font-size:12px;font-weight:700}.folder-head span{margin-right:auto}.mini-btn{border:0;background:transparent;color:var(--muted);border-radius:5px;padding:2px 6px;cursor:pointer}.mini-btn:hover{background:var(--soft);color:var(--fg)}
-.folder-row{display:flex;align-items:center;padding-left:calc(var(--depth,0) * 15px);border-radius:7px}.folder-row:hover{background:var(--soft)}.folder-select{border:0;background:transparent;color:var(--fg);padding:5px 4px;cursor:pointer;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.folder-toggle,.folder-spacer{width:20px;flex:0 0 20px;border:0;background:transparent;color:var(--muted);padding:4px 0}.folder-toggle{cursor:pointer}.folder-row.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel))}.folder-row.active .folder-select{color:var(--accent);font-weight:650}.folder-icon{color:var(--muted);margin-right:5px}.folder-count{font-size:11px;color:var(--muted);padding:0 5px}.folder-actions{display:flex;opacity:.3}.folder-row:hover .folder-actions,.folder-row:focus-within .folder-actions{opacity:1}.folder-actions button{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:2px 4px;border-radius:4px}.folder-actions button:hover{color:var(--fg);background:var(--panel)}.smart-folders{margin-bottom:5px;border-bottom:1px solid var(--soft);padding-bottom:5px}
-.list-head{display:flex;align-items:center;gap:6px;padding:8px 13px 2px;color:var(--muted);font-size:12px;flex:0 0 auto}.list-head strong{color:var(--fg);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.list{overflow:auto;padding:5px 8px 8px;flex:1}.card{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:11px;border-radius:10px;cursor:pointer;margin-bottom:3px}.card:hover{background:var(--soft)}.card.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}
+.folder-row{display:flex;align-items:center;padding-left:calc(var(--depth,0) * 15px);border-radius:7px}.folder-row:hover{background:var(--soft)}.folder-select{border:0;background:transparent;color:var(--fg);padding:5px 4px;cursor:pointer;text-align:left;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}.folder-toggle,.folder-spacer{width:20px;flex:0 0 20px;border:0;background:transparent;color:var(--muted);padding:4px 0}.folder-toggle{cursor:pointer}.folder-row.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel))}.folder-row.active .folder-select{color:var(--accent);font-weight:650}.folder-icon{color:var(--muted);margin-right:5px}.folder-count{font-size:11px;color:var(--muted);padding:0 5px}.folder-actions{display:flex;opacity:.3}.folder-row:hover .folder-actions,.folder-row:focus-within .folder-actions{opacity:1}.folder-actions button{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:2px 4px;border-radius:4px}.folder-actions button:hover{color:var(--fg);background:var(--panel)}
+.list{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:5px 8px 8px;flex:1 1 0}.card{display:block;width:100%;text-align:left;border:1px solid transparent;background:transparent;padding:11px;border-radius:10px;cursor:pointer;margin-bottom:3px}.card:hover{background:var(--soft)}.card.active{background:color-mix(in srgb,var(--accent) 10%,var(--panel));border-color:color-mix(in srgb,var(--accent) 32%,var(--line))}
 .card-title{font-weight:700;display:flex;gap:7px;align-items:center}.star{color:#d29a00}.card-body{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}.type{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:0 5px;border-radius:5px;font-weight:500}
 .empty{color:var(--muted);text-align:center;padding:45px 20px}.editor{overflow:auto;padding:22px 24px 45vh}.editor-inner{width:100%;margin:0}.blank{height:100%;display:grid;place-items:center;color:var(--muted)}
 .editor-top{display:flex;gap:8px;align-items:flex-start}.title-field{flex:1;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--fg);font-size:25px;font-weight:750;padding:5px 2px 9px;outline:none}
@@ -52,11 +52,9 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
       <div class="search-wrap"><input class="search" id="search" placeholder="제목, 본문, 태그 검색" autocomplete="off"></div>
     </div>
     <section class="folder-section">
-      <div class="folder-head"><span>폴더</span><button class="mini-btn" id="addRootFolder" title="최상위 폴더 추가">＋</button></div>
-      <div class="smart-folders" id="smartFolders"></div>
+      <div class="folder-head"><span>폴더</span><button class="mini-btn" id="clearFolder" title="폴더 선택 해제" hidden>×</button><button class="mini-btn" id="addRootFolder" title="최상위 폴더 추가">＋</button></div>
       <div id="folderTree"></div>
     </section>
-    <div class="list-head"><strong id="listTitle">전체 쟁점</strong><span id="listCount"></span></div>
     <div class="list" id="list"></div>
   </aside>
   <main class="editor" id="editor">
@@ -225,13 +223,7 @@ function filtered(){
 }
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function renderFolders(){
-  const smart=[
-    ['all','▤','전체 쟁점',doc.items.length],
-    ['recent','◷','최근 수정',itemsInView('recent').length],
-    ['starred','★','중요 쟁점',itemsInView('starred').length],
-    ['unfiled','◇','미분류',itemsInView('unfiled').length]
-  ];
-  $('#smartFolders').innerHTML=smart.map(([id,icon,name,n])=>'<div class="folder-row '+(selectedView===id?'active':'')+'"><button class="folder-select" data-view="'+id+'"><span class="folder-icon">'+icon+'</span>'+name+'</button><span class="folder-count">'+n+'</span></div>').join('');
+  $('#clearFolder').hidden=!folderById(selectedView);
   const visited=new Set();
   function rows(parentId,depth){
     return folderChildren(parentId).map(f=>{
@@ -274,7 +266,6 @@ function folderOptions(){
 }
 function renderList(){
   const items=filtered();countEl.textContent=query?items.length+'개 검색됨':doc.items.length+'개';
-  $('#listTitle').textContent=query?'전체 검색':viewName(selectedView);$('#listCount').textContent=items.length+'개';
   listEl.innerHTML=items.length?items.map(x=>'<button class="card '+(x.id===selectedId?'active':'')+'" data-id="'+esc(x.id)+'"><div class="card-title">'+(x.star?'<span class="star">★</span>':'')+'<span>'+esc(x.title||'제목 없음')+'</span> '+(x.type?'<span class="type">'+esc(x.type)+'</span>':'')+'</div><div class="card-body">'+esc(x.body||'내용 없음')+'</div></button>').join(''):'<div class="empty">'+(query?'검색 결과가 없습니다.':'새 쟁점을 추가해 보세요.')+'</div>';
   listEl.querySelectorAll('.card').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
 }
@@ -328,6 +319,7 @@ function addSelectedKeyword(){
 
 $('#search').oninput=e=>{query=e.target.value;renderList()};
 $('#addRootFolder').onclick=()=>addFolder(null);
+$('#clearFolder').onclick=()=>{selectedView='all';render()};
 $('#newBtn').onclick=()=>{const folderId=folderById(selectedView)?selectedView:null;const x=normalizeItem({title:'',type:'쟁점',folderId,tags:[],body:''});doc.items.push(x);selectedId=x.id;scheduleSave();render();app.classList.add('editing');$('#titleField').focus()};
 $('#backBtn').onclick=()=>app.classList.remove('editing');
 $('#titleField').oninput=e=>updateSelected('title',e.target.value);
