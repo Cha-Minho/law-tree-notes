@@ -214,7 +214,7 @@ function itemsInView(view){
 }
 function viewName(view){
   if(view==='all')return'전체 쟁점';if(view==='recent')return'최근 수정';if(view==='starred')return'중요 쟁점';if(view==='unfiled')return'미분류';
-  const names=[];let f=folderById(view),guard=0;while(f&&guard++<50){names.unshift(f.name);f=folderById(f.parentId)}return names.join(' / ')||'전체 쟁점';
+  const names=[];let f=folderById(view),guard=0;while(f&&guard++<50){names.unshift(f.name);f=folderById(f.parentId)}return names.join(' › ')||'전체 쟁점';
 }
 function filtered(){
   const words=query.trim().toLocaleLowerCase('ko').split(/\s+/).filter(Boolean);
@@ -261,8 +261,8 @@ function deleteFolder(id){
 }
 function folderOptions(){
   let html='<option value="">미분류</option>',visited=new Set();
-  function add(parentId,depth){for(const f of folderChildren(parentId)){if(visited.has(f.id))continue;visited.add(f.id);html+='<option value="'+esc(f.id)+'">'+'　'.repeat(depth)+esc(f.name)+'</option>';add(f.id,depth+1)}}
-  add(null,0);return html;
+  function add(parentId){for(const f of folderChildren(parentId)){if(visited.has(f.id))continue;visited.add(f.id);html+='<option value="'+esc(f.id)+'">'+esc(viewName(f.id))+'</option>';add(f.id)}}
+  add(null);return html;
 }
 function renderList(){
   const items=filtered();countEl.textContent=query?items.length+'개 검색됨':doc.items.length+'개';
@@ -330,13 +330,11 @@ $('#tagsField').oninput=renderTagPicker;
 $('#tagsField').onblur=()=>{setTimeout(()=>{tagPickerOpen=false;renderTagPicker()},120)};
 $('#tagsField').onkeydown=e=>{
   if(e.key==='Enter'||e.key===','){e.preventDefault();addTag(e.target.value)}
-  else if(e.key==='Backspace'&&!e.target.value){const x=selected();if(x&&x.tags.length)removeTag(x.tags[x.tags.length-1])}
   else if(e.key==='Escape'){tagPickerOpen=false;renderTagPicker();e.target.blur()}
 };
 $('#bodyField').oninput=e=>updateSelected('body',e.target.value);
 $('#keywordField').onkeydown=e=>{
   if(e.key==='Enter'){e.preventDefault();addKeyword(e.target.value)}
-  else if(e.key==='Backspace'&&!e.target.value){const x=selected();if(x&&x.keywords.length)removeKeyword(x.keywords[x.keywords.length-1])}
 };
 $('#addSelectionKeyword').onclick=addSelectedKeyword;
 $('#starBtn').onclick=()=>{const x=selected();x.star=!x.star;x.updatedAt=now();scheduleSave();render()};
