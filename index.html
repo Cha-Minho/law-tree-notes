@@ -26,7 +26,9 @@ header{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:
 .meta-grid{display:grid;grid-template-columns:160px 1fr;gap:12px;margin:18px 0}.label{font-size:12px;color:var(--muted);display:block;margin-bottom:5px}.field{width:100%;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:8px;padding:8px 10px;outline:none}
 .folder-field-wrap,.sidebar-folder-wrap{position:relative}.folder-picker-trigger{display:flex;align-items:center;justify-content:space-between;cursor:pointer;text-align:left}.folder-picker-trigger:hover{border-color:var(--accent)}.folder-picker{position:absolute;z-index:25;top:calc(100% + 5px);right:0;width:max(100%,340px);max-width:calc(100vw - 30px);max-height:min(440px,60vh);overflow:auto;border:1px solid var(--line);border-radius:10px;background:var(--panel);box-shadow:var(--shadow);padding:7px}.sidebar-folder-picker{left:0;right:auto;width:100%;max-height:min(520px,70vh)}.picker-row{display:flex;align-items:stretch;min-height:34px;border-radius:7px}.picker-row:hover{background:var(--soft)}.picker-row.selected{background:color-mix(in srgb,var(--accent) 11%,var(--panel));color:var(--accent);font-weight:650}.picker-guides{width:calc(var(--depth,0) * 18px);flex:0 0 auto;background:repeating-linear-gradient(to right,transparent 0 16px,var(--line) 16px 17px)}.picker-toggle,.picker-spacer{width:26px;flex:0 0 26px;border:0;background:transparent;color:var(--muted);padding:0;cursor:pointer}.picker-spacer{cursor:default}.picker-select{min-width:0;flex:1;border:0;background:transparent;color:inherit;text-align:left;padding:6px 8px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.picker-meta{font-size:11px;color:var(--muted);align-self:center;padding:0 5px}.picker-actions{display:flex;align-items:center;opacity:.35}.picker-row:hover .picker-actions,.picker-row:focus-within .picker-actions{opacity:1}.picker-actions button{border:0;background:transparent;color:var(--muted);cursor:pointer;padding:3px 5px;border-radius:5px}.picker-actions button:hover{color:var(--fg);background:var(--panel)}.picker-unfiled{border-bottom:1px solid var(--line);margin-bottom:5px}
 .tag-picker{position:relative;grid-column:1/-1}.chosen-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}.chosen-tag{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--panel));color:var(--accent);border-radius:999px;padding:3px 7px 3px 9px;font-size:12px}.chosen-tag button{border:0;background:transparent;color:inherit;padding:0 2px;cursor:pointer;font-size:14px;line-height:1}.tag-suggestions{position:absolute;z-index:20;top:100%;left:0;right:0;margin-top:4px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:var(--shadow);padding:5px}.tag-suggestions button{display:flex;width:100%;justify-content:space-between;border:0;background:transparent;color:var(--fg);padding:7px 9px;border-radius:6px;cursor:pointer;text-align:left}.tag-suggestions button:hover,.tag-suggestions button:focus{background:var(--soft)}.tag-count{color:var(--muted);font-size:12px}.create-tag{color:var(--accent)!important}
+.issue-format{grid-column:1/-1}.format-switch{display:inline-flex;padding:3px;border:1px solid var(--line);border-radius:9px;background:var(--soft)}.format-switch button{border:0;background:transparent;color:var(--muted);border-radius:6px;padding:6px 12px;cursor:pointer}.format-switch button.active{background:var(--panel);color:var(--accent);font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.08)}
 .body-editor{position:relative;width:100%;min-height:330px;border:1px solid var(--line);background:var(--panel);border-radius:11px;box-shadow:var(--shadow);overflow:hidden}.body-editor:focus-within{border-color:var(--accent)}.body-field,.body-highlights{margin:0;font:inherit;line-height:1.75;letter-spacing:inherit;tab-size:4;white-space:pre-wrap;overflow-wrap:break-word}.body-field{position:relative;z-index:1;display:block;width:100%;min-height:330px;resize:vertical;border:0;background:transparent;color:var(--fg);border-radius:10px;padding:16px;outline:none;box-shadow:none}.body-highlights{position:absolute;z-index:0;inset:0;overflow:hidden;padding:16px;color:transparent;pointer-events:none}.body-highlights mark{color:transparent;background:#ffe36e;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}.body-help{display:block;margin-top:6px;color:var(--muted);font-size:12px}
+.theory-toolbar{display:flex;align-items:center;margin-bottom:10px}.theory-toolbar h2{font-size:16px;margin:0 auto 0 0}.theory-list{display:grid;gap:12px}.theory-card,.structured-card{border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 88%,var(--soft));padding:13px}.theory-card-head{display:flex;gap:8px;align-items:center;margin-bottom:8px}.theory-name{min-width:0;flex:1;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--fg);font-size:17px;font-weight:750;padding:4px 2px 7px;outline:none}.theory-name:focus{border-color:var(--accent)}.theory-remove{border:0;background:transparent;color:var(--danger);cursor:pointer;border-radius:6px;padding:5px 8px}.theory-remove:hover{background:var(--soft)}.structured-card{margin-top:14px}.structured-card h3{font-size:14px;margin:0 0 8px}.structured-editor,.structured-editor .body-field{min-height:150px}
 @media(prefers-color-scheme:dark){.body-highlights mark{background:#7c6519}}
 .save-state{height:22px;text-align:right;color:var(--muted);font-size:12px;margin-top:4px}.related{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.related h3{font-size:14px;margin:0 0 10px}.related-list{display:flex;gap:7px;flex-wrap:wrap}.related button{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 9px;cursor:pointer}.related button:hover{border-color:var(--accent)}
 dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:13px;padding:21px;width:min(92%,520px);box-shadow:var(--shadow)}dialog::backdrop{background:rgba(0,0,0,.45)}dialog h2{font-size:17px;margin:0 0 6px}dialog p{font-size:13px;color:var(--muted);margin:0 0 13px}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.sync-msg{min-height:21px;color:var(--accent);font-size:13px;margin-top:8px}
@@ -82,9 +84,22 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
           <input class="field" id="tagsField" placeholder="태그 검색 또는 새 태그 입력 후 Enter" autocomplete="off">
           <div class="tag-suggestions" id="tagSuggestions" hidden></div>
         </div>
+        <div class="issue-format">
+          <span class="label">정리 형식</span>
+          <div class="format-switch" id="formatSwitch"><button type="button" data-format="general">일반 쟁점</button><button type="button" data-format="theory">학설대립</button></div>
+        </div>
       </div>
-      <label><span class="label">내용</span><div class="body-editor"><div class="body-highlights" id="bodyHighlights" aria-hidden="true"></div><textarea class="body-field" id="bodyField" placeholder="학설, 판례의 입장, 검토, 의문점 등을 자유롭게 적어 주세요." aria-describedby="bodyHelp"></textarea></div></label>
-      <span class="body-help" id="bodyHelp">단어나 구문을 드래그한 뒤 우클릭 또는 Ctrl+H로 형광펜을 켜거나 끌 수 있습니다.</span>
+      <section id="generalContent">
+        <label><span class="label">내용</span><div class="body-editor"><div class="body-highlights" aria-hidden="true"></div><textarea class="body-field highlight-field" id="bodyField" data-content-kind="general" placeholder="학설, 판례의 입장, 검토, 의문점 등을 자유롭게 적어 주세요." aria-describedby="bodyHelp"></textarea></div></label>
+        <span class="body-help" id="bodyHelp">단어나 구문을 드래그한 뒤 우클릭 또는 Ctrl+H로 형광펜을 켜거나 끌 수 있습니다.</span>
+      </section>
+      <section id="theoryContent" hidden>
+        <div class="theory-toolbar"><h2>대립하는 학설</h2><button class="btn" id="addTheoryBtn" type="button">＋ 학설 추가</button></div>
+        <div class="theory-list" id="theoryList"></div>
+        <article class="structured-card"><h3>판례의 태도</h3><div class="body-editor structured-editor"><div class="body-highlights" aria-hidden="true"></div><textarea class="body-field highlight-field" data-content-kind="precedent" placeholder="판례가 취하는 입장과 근거를 정리해 주세요."></textarea></div></article>
+        <article class="structured-card"><h3>검토</h3><div class="body-editor structured-editor"><div class="body-highlights" aria-hidden="true"></div><textarea class="body-field highlight-field" data-content-kind="review" placeholder="각 학설의 장단점과 자신의 견해를 정리해 주세요."></textarea></div></article>
+        <span class="body-help">각 칸에서도 드래그 후 우클릭 또는 Ctrl+H로 키워드를 표시할 수 있습니다.</span>
+      </section>
       <div class="save-state" id="saveState"></div>
       <section class="related" id="related" hidden><h3>같은 태그의 관련 쟁점</h3><div class="related-list" id="relatedList"></div></section>
     </div>
@@ -125,11 +140,21 @@ function rangesFromLegacyKeywords(body,value){
   const ranges=[];for(const keyword of cleanKeywords(value)){let from=0,index;while((index=body.indexOf(keyword,from))!==-1){ranges.push({start:index,end:index+keyword.length});from=index+Math.max(1,keyword.length)}}return normalizeKeywordRanges(body,ranges);
 }
 function refreshKeywordData(item){item.keywordRanges=normalizeKeywordRanges(item.body,item.keywordRanges);item.keywords=[...new Set(item.keywordRanges.map(r=>r.text.replace(/\s+/g,' ').trim()).filter(Boolean))]}
-const textOf=item=>[item.title,item.body,item.type,...item.tags,...(item.keywords||[])].join(' ').toLocaleLowerCase('ko');
+function normalizeTextBlock(x={}){const body=String(x?.body||''),keywordRanges=Array.isArray(x?.keywordRanges)?normalizeKeywordRanges(body,x.keywordRanges):rangesFromLegacyKeywords(body,x?.keywords);const block={body,keywordRanges,keywords:[]};refreshKeywordData(block);return block}
+const defaultTheoryName=index=>index<26?String.fromCharCode(65+index)+'설':String(index+1)+'설';
+function nextAddedTheoryName(theories){const names=new Set(theories.map(t=>t.name));let index=2;while(names.has(defaultTheoryName(index)))index++;return defaultTheoryName(index)}
+function normalizeTheory(x,index){return{id:String(x?.id||uid()),name:String(x?.name||defaultTheoryName(index)).trim()||defaultTheoryName(index),...normalizeTextBlock(x)}}
+function normalizeTheoryDispute(value){
+  const source=value&&typeof value==='object'?value:{},theories=(Array.isArray(source.theories)?source.theories:[]).map(normalizeTheory);while(theories.length<2)theories.push(normalizeTheory({},theories.length));
+  return{theories,precedent:normalizeTextBlock(source.precedent),review:normalizeTextBlock(source.review)};
+}
+function theoryText(item){const d=item.theoryDispute;if(!d)return'';return[...d.theories.flatMap(t=>[t.name,t.body,...t.keywords]),'판례의 태도',d.precedent.body,...d.precedent.keywords,'검토',d.review.body,...d.review.keywords].join(' ')}
+function itemBodyText(item){if(item.format!=='theory')return item.body;const d=item.theoryDispute;return[...d.theories.map(t=>t.body),d.precedent.body,d.review.body].map(v=>v.trim()).filter(Boolean).join(' ')}
+const textOf=item=>[item.title,item.body,theoryText(item),item.type,...item.tags,...(item.keywords||[])].join(' ').toLocaleLowerCase('ko');
 
 function sampleDoc(){
   const civil=uid(),act=uid();
-  return{version:4,title:'법학 쟁점노트',updatedAt:now(),folders:[
+  return{version:5,title:'법학 쟁점노트',updatedAt:now(),folders:[
     {id:civil,name:'민법',parentId:null,createdAt:now()},
     {id:act,name:'법률행위',parentId:civil,createdAt:now()}
   ],items:[
@@ -137,7 +162,7 @@ function sampleDoc(){
     {id:uid(),title:'동기의 착오',type:'판례',folderId:act,tags:['민법','의사표시','착오'],keywordRanges:[{start:19,end:27,text:'법률행위의 내용'}],body:'판례는 동기가 상대방에게 표시되어 법률행위의 내용이 된 경우에 내용의 착오로서 취소할 수 있다고 본다.',star:false,createdAt:now(),updatedAt:now()}
   ]}
 }
-function normalizeItem(x){const body=String(x.body||''),keywordRanges=Array.isArray(x.keywordRanges)?normalizeKeywordRanges(body,x.keywordRanges):rangesFromLegacyKeywords(body,x.keywords);const item={id:String(x.id||uid()),title:String(x.title??x.text??''),type:String(x.type&&TYPE_MAP[x.type]||x.type||'쟁점'),folderId:x.folderId?String(x.folderId):null,tags:cleanTags(x.tags),keywordRanges,keywords:[],body,source:String(x.source||''),star:!!x.star,createdAt:+x.createdAt||now(),updatedAt:+x.updatedAt||now()};refreshKeywordData(item);return item}
+function normalizeItem(x){const body=String(x.body||''),keywordRanges=Array.isArray(x.keywordRanges)?normalizeKeywordRanges(body,x.keywordRanges):rangesFromLegacyKeywords(body,x.keywords),format=x.format==='theory'?'theory':'general';const item={id:String(x.id||uid()),title:String(x.title??x.text??''),type:String(x.type&&TYPE_MAP[x.type]||x.type||'쟁점'),format,folderId:x.folderId?String(x.folderId):null,tags:cleanTags(x.tags),keywordRanges,keywords:[],body,theoryDispute:(x.theoryDispute||format==='theory')?normalizeTheoryDispute(x.theoryDispute):null,source:String(x.source||''),star:!!x.star,createdAt:+x.createdAt||now(),updatedAt:+x.updatedAt||now()};refreshKeywordData(item);return item}
 function normalizeFolder(x){return{id:String(x.id||uid()),name:String(x.name||'새 폴더').trim()||'새 폴더',parentId:x.parentId?String(x.parentId):null,createdAt:+x.createdAt||now()}}
 function ensureFolderPath(folders,names){
   let parentId=null;
@@ -161,7 +186,7 @@ function normalizeDoc(d){
   const ids=new Set(folders.map(f=>f.id));
   for(const folder of folders)if(folder.parentId&&!ids.has(folder.parentId))folder.parentId=null;
   for(const item of items)if(item.folderId&&!ids.has(item.folderId))item.folderId=null;
-  return{version:4,title:String(d.title||'법학 쟁점노트'),updatedAt:+d.updatedAt||now(),folders,items};
+  return{version:5,title:String(d.title||'법학 쟁점노트'),updatedAt:+d.updatedAt||now(),folders,items};
 }
 function migrateTree(d){
   const items=[],folders=[];
@@ -182,7 +207,7 @@ function migrateTree(d){
     }
   }
   walk(d.tree);
-  return{version:4,title:String(d.title||'법학 쟁점노트').replace('트리','쟁점'),updatedAt:+d.updatedAt||now(),folders,items};
+  return{version:5,title:String(d.title||'법학 쟁점노트').replace('트리','쟁점'),updatedAt:+d.updatedAt||now(),folders,items};
 }
 function parseDoc(raw){
   const d=typeof raw==='string'?JSON.parse(raw):raw;
@@ -193,7 +218,7 @@ function parseDoc(raw){
 function loadDoc(){
   try{const saved=localStorage.getItem(LS_DOC);if(saved){const parsed=parseDoc(saved);localStorage.setItem(LS_DOC,JSON.stringify(parsed));return parsed}}catch(e){}
   try{const old=localStorage.getItem(LS_OLD);if(old){const migrated=parseDoc(old);localStorage.setItem(LS_DOC,JSON.stringify(migrated));return migrated}}catch(e){}
-  return sampleDoc();
+  return normalizeDoc(sampleDoc());
 }
 let doc=loadDoc(),selectedId=null,query='',tagPickerOpen=false,selectedView='all';
 let cfg={};try{cfg=JSON.parse(localStorage.getItem(LS_CFG))||{}}catch(e){}
@@ -201,7 +226,7 @@ let saveTimer=null;
 const app=$('#app'),listEl=$('#list'),countEl=$('#count');
 
 function saveCfg(){localStorage.setItem(LS_CFG,JSON.stringify(cfg))}
-function saveNow(){clearTimeout(saveTimer);saveTimer=null;doc.version=4;for(const item of doc.items)refreshKeywordData(item);doc.updatedAt=now();localStorage.setItem(LS_DOC,JSON.stringify(doc));$('#saveState').textContent='저장됨'}
+function saveNow(){clearTimeout(saveTimer);saveTimer=null;doc.version=5;for(const item of doc.items){refreshKeywordData(item);if(item.theoryDispute){for(const theory of item.theoryDispute.theories)refreshKeywordData(theory);refreshKeywordData(item.theoryDispute.precedent);refreshKeywordData(item.theoryDispute.review)}}doc.updatedAt=now();localStorage.setItem(LS_DOC,JSON.stringify(doc));$('#saveState').textContent='저장됨'}
 function scheduleSave(){doc.updatedAt=now();$('#saveState').textContent='저장 중…';clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,350)}
 addEventListener('beforeunload',()=>{if(saveTimer)saveNow()});
 function selected(){return doc.items.find(x=>x.id===selectedId)}
@@ -293,12 +318,12 @@ function toggleSidebarFolderPicker(force){
 function chooseSidebarFolder(folderId){selectedView=folderId||'all';query='';$('#search').value='';toggleSidebarFolderPicker(false);renderFolders();renderList()}
 function renderList(){
   const items=filtered();countEl.textContent=query?items.length+'개 검색됨':doc.items.length+'개';
-  listEl.innerHTML=items.length?items.map(x=>'<button class="card '+(x.id===selectedId?'active':'')+'" data-id="'+esc(x.id)+'"><div class="card-title">'+(x.star?'<span class="star">★</span>':'')+'<span>'+esc(x.title||'제목 없음')+'</span> '+(x.type?'<span class="type">'+esc(x.type)+'</span>':'')+'</div><div class="card-body">'+esc(x.body||'내용 없음')+'</div></button>').join(''):'<div class="empty">'+(query?'검색 결과가 없습니다.':'새 쟁점을 추가해 보세요.')+'</div>';
+  listEl.innerHTML=items.length?items.map(x=>{const badge=x.format==='theory'?'학설대립':x.type,summary=itemBodyText(x);return'<button class="card '+(x.id===selectedId?'active':'')+'" data-id="'+esc(x.id)+'"><div class="card-title">'+(x.star?'<span class="star">★</span>':'')+'<span>'+esc(x.title||'제목 없음')+'</span> '+(badge?'<span class="type">'+esc(badge)+'</span>':'')+'</div><div class="card-body">'+esc(summary||'내용 없음')+'</div></button>'}).join(''):'<div class="empty">'+(query?'검색 결과가 없습니다.':'새 쟁점을 추가해 보세요.')+'</div>';
   listEl.querySelectorAll('.card').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
 }
 function renderEditor(){
   const x=selected();$('#blank').hidden=!!x;$('#editorInner').hidden=!x;if(!x)return;
-  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#folderFieldLabel').textContent=x.folderId?viewName(x.folderId):'미분류';$('#folderPicker').hidden=true;$('#folderField').setAttribute('aria-expanded','false');$('#tagsField').value='';$('#bodyField').value=x.body;$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();renderBodyHighlights();
+  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#folderFieldLabel').textContent=x.folderId?viewName(x.folderId):'미분류';$('#folderPicker').hidden=true;$('#folderField').setAttribute('aria-expanded','false');$('#tagsField').value='';$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();renderIssueContent();
   const related=doc.items.filter(y=>y.id!==x.id&&y.tags.some(t=>x.tags.includes(t))).map(y=>({y,score:y.tags.filter(t=>x.tags.includes(t)).length})).sort((a,b)=>b.score-a.score||b.y.updatedAt-a.y.updatedAt).slice(0,8);
   $('#related').hidden=!related.length;$('#relatedList').innerHTML=related.map(({y,score})=>'<button data-id="'+esc(y.id)+'">'+esc(y.title||'제목 없음')+' <span class="type">'+score+'개 태그</span></button>').join('');
   $('#relatedList').querySelectorAll('button').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
@@ -327,26 +352,46 @@ function addTag(value){
   $('#tagsField').value='';tagPickerOpen=true;updateSelected('tags',x.tags);renderTagPicker();$('#tagsField').focus();
 }
 function removeTag(tag){const x=selected();if(!x)return;updateSelected('tags',x.tags.filter(t=>t!==tag));renderTagPicker()}
-function renderBodyHighlights(){
-  const x=selected(),field=$('#bodyField'),layer=$('#bodyHighlights');if(!x)return;
-  refreshKeywordData(x);let at=0,html='';for(const range of x.keywordRanges){html+=esc(x.body.slice(at,range.start))+'<mark>'+esc(x.body.slice(range.start,range.end))+'</mark>';at=range.end}html+=esc(x.body.slice(at));if(x.body.endsWith('\n'))html+=' ';
-  layer.innerHTML=html;syncBodyHighlightLayer();
+const highlightResizeObserver='ResizeObserver'in window?new ResizeObserver(entries=>entries.forEach(entry=>syncHighlightLayer(entry.target))):null;
+function contentTarget(field){
+  const x=selected();if(!x)return null;const kind=field.dataset.contentKind;if(kind==='general')return x;if(kind==='theory')return x.theoryDispute.theories.find(t=>t.id===field.dataset.theoryId)||null;if(kind==='precedent')return x.theoryDispute.precedent;if(kind==='review')return x.theoryDispute.review;return null;
 }
-function syncBodyHighlightLayer(){const field=$('#bodyField'),layer=$('#bodyHighlights');layer.scrollTop=field.scrollTop;layer.scrollLeft=field.scrollLeft;layer.style.width=field.clientWidth+'px';layer.style.height=field.clientHeight+'px'}
+function renderFieldHighlight(field){
+  const target=contentTarget(field),layer=field.parentElement.querySelector('.body-highlights');if(!target||!layer)return;refreshKeywordData(target);let at=0,html='';for(const range of target.keywordRanges){html+=esc(target.body.slice(at,range.start))+'<mark>'+esc(target.body.slice(range.start,range.end))+'</mark>';at=range.end}html+=esc(target.body.slice(at));if(target.body.endsWith('\n'))html+=' ';layer.innerHTML=html;syncHighlightLayer(field);
+}
+function syncHighlightLayer(field){const layer=field?.parentElement?.querySelector('.body-highlights');if(!field||!layer)return;layer.scrollTop=field.scrollTop;layer.scrollLeft=field.scrollLeft;layer.style.width=field.clientWidth+'px';layer.style.height=field.clientHeight+'px'}
+function wireHighlightField(field){
+  field.oninput=e=>updateTextContent(field,e.target.value);field.onscroll=()=>syncHighlightLayer(field);field.oncontextmenu=e=>{if(field.selectionStart!==field.selectionEnd){e.preventDefault();toggleSelectedHighlight(field)}};field.onkeydown=e=>{if(e.ctrlKey&&!e.altKey&&!e.shiftKey&&e.key.toLocaleLowerCase()==='h'){e.preventDefault();toggleSelectedHighlight(field)}};highlightResizeObserver?.observe(field);renderFieldHighlight(field);
+}
+function renderIssueContent(){
+  const x=selected(),theoryMode=x.format==='theory';highlightResizeObserver?.disconnect();$('#generalContent').hidden=theoryMode;$('#theoryContent').hidden=!theoryMode;$('#formatSwitch').querySelectorAll('[data-format]').forEach(b=>b.classList.toggle('active',b.dataset.format===x.format));
+  if(theoryMode)renderTheoryContent();else{const field=$('#bodyField');field.value=x.body;wireHighlightField(field)}
+}
+function renderTheoryContent(){
+  highlightResizeObserver?.disconnect();const x=selected(),d=x.theoryDispute,list=$('#theoryList');
+  list.innerHTML=d.theories.map((t,index)=>'<article class="theory-card"><div class="theory-card-head"><input class="theory-name" data-theory-name="'+esc(t.id)+'" value="'+esc(t.name)+'" aria-label="학설 이름" placeholder="예: 다수설">'+(index>=2?'<button class="theory-remove" type="button" data-remove-theory="'+esc(t.id)+'">삭제</button>':'')+'</div><div class="body-editor structured-editor"><div class="body-highlights" aria-hidden="true"></div><textarea class="body-field highlight-field" data-content-kind="theory" data-theory-id="'+esc(t.id)+'" placeholder="'+esc(t.name)+'의 논거와 결론을 정리해 주세요.">'+esc(t.body)+'</textarea></div></article>').join('');
+  list.querySelectorAll('[data-theory-name]').forEach(field=>field.oninput=()=>{const theory=d.theories.find(t=>t.id===field.dataset.theoryName);if(!theory)return;theory.name=field.value;x.updatedAt=now();scheduleSave();renderList()});
+  list.querySelectorAll('[data-remove-theory]').forEach(button=>button.onclick=()=>removeTheory(button.dataset.removeTheory));
+  const precedent=$('#theoryContent [data-content-kind="precedent"]'),review=$('#theoryContent [data-content-kind="review"]');precedent.value=d.precedent.body;review.value=d.review.body;
+  $('#theoryContent').querySelectorAll('.highlight-field').forEach(wireHighlightField);
+}
+function setIssueFormat(format){const x=selected();if(!x||!['general','theory'].includes(format)||x.format===format)return;if(format==='theory'&&!x.theoryDispute)x.theoryDispute=normalizeTheoryDispute();x.format=format;x.updatedAt=now();scheduleSave();renderIssueContent();renderList()}
+function addTheory(){const x=selected();if(!x)return;const theory=normalizeTheory({name:nextAddedTheoryName(x.theoryDispute.theories)},x.theoryDispute.theories.length);x.theoryDispute.theories.push(theory);x.updatedAt=now();scheduleSave();renderTheoryContent();renderList();const field=[...document.querySelectorAll('[data-theory-name]')].find(el=>el.dataset.theoryName===theory.id);field?.focus();field?.select()}
+function removeTheory(id){const x=selected(),index=x?.theoryDispute.theories.findIndex(t=>t.id===id)??-1;if(!x||index<2)return;const theory=x.theoryDispute.theories[index];if(theory.body.trim()&&!confirm('“'+theory.name+'”의 내용을 포함해 삭제할까요?'))return;x.theoryDispute.theories.splice(index,1);x.updatedAt=now();scheduleSave();renderTheoryContent();renderList()}
 function transformKeywordRanges(ranges,start,oldEnd,newEnd){
   const delta=newEnd-oldEnd,out=[];for(const r of ranges){if(r.end<=start)out.push({start:r.start,end:r.end});else if(r.start>=oldEnd)out.push({start:r.start+delta,end:r.end+delta});else{if(r.start<start)out.push({start:r.start,end:start});if(r.end>oldEnd)out.push({start:newEnd,end:r.end+delta})}}return out;
 }
-function updateBody(value){
-  const x=selected();if(!x)return;const old=x.body,next=String(value);let start=0;while(start<old.length&&start<next.length&&old[start]===next[start])start++;let suffix=0;while(suffix<old.length-start&&suffix<next.length-start&&old[old.length-1-suffix]===next[next.length-1-suffix])suffix++;
-  const oldEnd=old.length-suffix,newEnd=next.length-suffix;x.keywordRanges=transformKeywordRanges(x.keywordRanges,start,oldEnd,newEnd);x.body=next;refreshKeywordData(x);x.updatedAt=now();scheduleSave();renderBodyHighlights();renderList();
+function updateTextContent(field,value){
+  const x=selected(),target=contentTarget(field);if(!x||!target)return;const old=target.body,next=String(value);let start=0;while(start<old.length&&start<next.length&&old[start]===next[start])start++;let suffix=0;while(suffix<old.length-start&&suffix<next.length-start&&old[old.length-1-suffix]===next[next.length-1-suffix])suffix++;
+  const oldEnd=old.length-suffix,newEnd=next.length-suffix;target.keywordRanges=transformKeywordRanges(target.keywordRanges,start,oldEnd,newEnd);target.body=next;refreshKeywordData(target);x.updatedAt=now();scheduleSave();renderFieldHighlight(field);renderList();
 }
 function selectionIsHighlighted(ranges,start,end){let covered=start;for(const r of ranges){if(r.end<=covered)continue;if(r.start>covered||r.start>=end)return false;covered=Math.max(covered,r.end);if(covered>=end)return true}return false}
-function toggleSelectedHighlight(){
-  const x=selected(),field=$('#bodyField');if(!x)return false;const start=field.selectionStart,end=field.selectionEnd;if(start===end){toast('본문에서 단어나 구문을 먼저 선택하세요');field.focus();return false}
-  if(selectionIsHighlighted(x.keywordRanges,start,end)){
-    const next=[];for(const r of x.keywordRanges){if(r.end<=start||r.start>=end)next.push(r);else{if(r.start<start)next.push({start:r.start,end:start});if(r.end>end)next.push({start:end,end:r.end})}}x.keywordRanges=next;toast('선택한 부분의 형광펜을 지웠습니다');
-  }else{x.keywordRanges.push({start,end});toast('선택한 부분을 키워드로 표시했습니다')}
-  refreshKeywordData(x);x.updatedAt=now();scheduleSave();renderBodyHighlights();renderList();field.focus({preventScroll:true});field.setSelectionRange(start,end);return true;
+function toggleSelectedHighlight(field){
+  const x=selected(),target=contentTarget(field);if(!x||!target)return false;const start=field.selectionStart,end=field.selectionEnd;if(start===end){toast('본문에서 단어나 구문을 먼저 선택하세요');field.focus();return false}
+  if(selectionIsHighlighted(target.keywordRanges,start,end)){
+    const next=[];for(const r of target.keywordRanges){if(r.end<=start||r.start>=end)next.push(r);else{if(r.start<start)next.push({start:r.start,end:start});if(r.end>end)next.push({start:end,end:r.end})}}target.keywordRanges=next;toast('선택한 부분의 형광펜을 지웠습니다');
+  }else{target.keywordRanges.push({start,end});toast('선택한 부분을 키워드로 표시했습니다')}
+  refreshKeywordData(target);x.updatedAt=now();scheduleSave();renderFieldHighlight(field);renderList();field.focus({preventScroll:true});field.setSelectionRange(start,end);return true;
 }
 
 $('#search').oninput=e=>{query=e.target.value;renderList()};
@@ -368,11 +413,8 @@ $('#tagsField').onkeydown=e=>{
   if(e.key==='Enter'||e.key===','){e.preventDefault();addTag(e.target.value)}
   else if(e.key==='Escape'){tagPickerOpen=false;renderTagPicker();e.target.blur()}
 };
-$('#bodyField').oninput=e=>updateBody(e.target.value);
-$('#bodyField').onscroll=syncBodyHighlightLayer;
-$('#bodyField').oncontextmenu=e=>{if(e.currentTarget.selectionStart!==e.currentTarget.selectionEnd){e.preventDefault();toggleSelectedHighlight()}};
-$('#bodyField').onkeydown=e=>{if(e.ctrlKey&&!e.altKey&&!e.shiftKey&&e.key.toLocaleLowerCase()==='h'){e.preventDefault();toggleSelectedHighlight()}};
-if('ResizeObserver'in window)new ResizeObserver(syncBodyHighlightLayer).observe($('#bodyField'));
+$('#formatSwitch').querySelectorAll('[data-format]').forEach(button=>button.onclick=()=>setIssueFormat(button.dataset.format));
+$('#addTheoryBtn').onclick=addTheory;
 $('#starBtn').onclick=()=>{const x=selected();x.star=!x.star;x.updatedAt=now();scheduleSave();render()};
 $('#deleteBtn').onclick=()=>{const x=selected();if(!x||!confirm('“'+(x.title||'제목 없음')+'”을 삭제할까요?'))return;doc.items=doc.items.filter(y=>y.id!==x.id);selectedId=null;scheduleSave();app.classList.remove('editing');render()};
 $('#saveFolder').onclick=saveFolderDialog;
