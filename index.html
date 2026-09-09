@@ -28,6 +28,7 @@ header{height:58px;border-bottom:1px solid var(--line);display:flex;align-items:
 .tag-picker{position:relative;grid-column:1/-1}.chosen-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px}.chosen-tag{display:inline-flex;align-items:center;gap:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line));background:color-mix(in srgb,var(--accent) 8%,var(--panel));color:var(--accent);border-radius:999px;padding:3px 7px 3px 9px;font-size:12px}.chosen-tag button{border:0;background:transparent;color:inherit;padding:0 2px;cursor:pointer;font-size:14px;line-height:1}.tag-suggestions{position:absolute;z-index:20;top:100%;left:0;right:0;margin-top:4px;max-height:220px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--panel);box-shadow:var(--shadow);padding:5px}.tag-suggestions button{display:flex;width:100%;justify-content:space-between;border:0;background:transparent;color:var(--fg);padding:7px 9px;border-radius:6px;cursor:pointer;text-align:left}.tag-suggestions button:hover,.tag-suggestions button:focus{background:var(--soft)}.tag-count{color:var(--muted);font-size:12px}.create-tag{color:var(--accent)!important}
 .body-editor{position:relative;width:100%;min-height:330px;border:1px solid var(--line);background:var(--panel);border-radius:11px;box-shadow:var(--shadow);overflow:hidden}.body-editor:focus-within{border-color:var(--accent)}.body-field,.body-highlights{margin:0;font:inherit;line-height:1.75;letter-spacing:inherit;tab-size:4;white-space:pre-wrap;overflow-wrap:break-word}.body-field{position:relative;z-index:1;display:block;width:100%;min-height:330px;resize:vertical;border:0;background:transparent;color:var(--fg);border-radius:10px;padding:16px;outline:none;box-shadow:none}.body-highlights{position:absolute;z-index:0;inset:0;overflow:hidden;padding:16px;color:transparent;pointer-events:none}.body-highlights mark{color:transparent;background:#ffe36e;border-radius:3px;box-decoration-break:clone;-webkit-box-decoration-break:clone}.body-help{display:block;margin-top:6px;color:var(--muted);font-size:12px}
 .theory-toolbar{display:flex;align-items:center;margin-bottom:10px}.theory-toolbar h2{font-size:16px;margin:0 auto 0 0}.theory-list{display:grid;gap:12px}.theory-card,.structured-card{border:1px solid var(--line);border-radius:12px;background:color-mix(in srgb,var(--panel) 88%,var(--soft));padding:13px}.theory-card-head{display:flex;gap:8px;align-items:center;margin-bottom:8px}.theory-name{min-width:0;flex:1;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--fg);font-size:17px;font-weight:750;padding:4px 2px 7px;outline:none}.theory-name:focus{border-color:var(--accent)}.theory-remove{border:0;background:transparent;color:var(--danger);cursor:pointer;border-radius:6px;padding:5px 8px}.theory-remove:hover{background:var(--soft)}.structured-card{margin-top:14px}.structured-card h3{font-size:14px;margin:0 0 8px}.structured-editor,.structured-editor .body-field{min-height:150px}
+.mnemonic-case{margin-top:0}.mnemonic-preview{display:flex;align-items:center;gap:12px;margin:12px 0;padding:10px 13px;border:1px solid color-mix(in srgb,var(--accent) 30%,var(--line));border-radius:10px;background:color-mix(in srgb,var(--accent) 7%,var(--panel))}.mnemonic-preview span{color:var(--muted);font-size:12px}.mnemonic-preview strong{font-size:22px;letter-spacing:.16em;color:var(--accent)}.mnemonic-columns,.mnemonic-row{display:grid;grid-template-columns:minmax(72px,18%) minmax(0,1fr) 38px;gap:8px;align-items:center}.mnemonic-columns{padding:0 2px 5px;color:var(--muted);font-size:12px}.mnemonic-list{display:grid;gap:7px}.mnemonic-cue{text-align:center;font-size:18px;font-weight:750;padding-left:7px;padding-right:7px}.mnemonic-remove{border:0;background:transparent;color:var(--danger);border-radius:6px;padding:7px;cursor:pointer}.mnemonic-remove:hover{background:var(--soft)}.quiz-order{margin-top:14px;padding:10px 12px;border-radius:9px;background:var(--soft);color:var(--muted);font-size:12px}.quiz-order strong{color:var(--fg)}
 @media(prefers-color-scheme:dark){.body-highlights mark{background:#7c6519}}
 .save-state{height:22px;text-align:right;color:var(--muted);font-size:12px;margin-top:4px}.related{margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}.related h3{font-size:14px;margin:0 0 10px}.related-list{display:flex;gap:7px;flex-wrap:wrap}.related button{border:1px solid var(--line);background:var(--panel);border-radius:8px;padding:7px 9px;cursor:pointer}.related button:hover{border-color:var(--accent)}
 dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:13px;padding:21px;width:min(92%,520px);box-shadow:var(--shadow)}dialog::backdrop{background:rgba(0,0,0,.45)}dialog h2{font-size:17px;margin:0 0 6px}dialog p{font-size:13px;color:var(--muted);margin:0 0 13px}.dialog-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.sync-msg{min-height:21px;color:var(--accent);font-size:13px;margin-top:8px}
@@ -95,12 +96,20 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
         <article class="structured-card"><h3>검토</h3><div class="body-editor structured-editor"><div class="body-highlights" aria-hidden="true"></div><textarea class="body-field highlight-field" data-content-kind="review" placeholder="각 학설의 장단점과 자신의 견해를 정리해 주세요."></textarea></div></article>
         <span class="body-help">각 칸에서도 드래그 후 우클릭 또는 Ctrl+H로 키워드를 표시할 수 있습니다.</span>
       </section>
+      <section id="mnemonicContent" hidden>
+        <article class="structured-card mnemonic-case"><h3>사례</h3><div class="body-editor structured-editor"><div class="body-highlights" aria-hidden="true"></div><textarea class="body-field highlight-field" data-content-kind="mnemonic-scenario" placeholder="두문자를 떠올릴 사례나 질문을 적어 주세요."></textarea></div></article>
+        <div class="theory-toolbar"><h2>두문자와 원문</h2><button class="btn" id="addMnemonicBtn" type="button">＋ 항목 추가</button></div>
+        <div class="mnemonic-preview"><span>두문자</span><strong id="mnemonicPreview">—</strong></div>
+        <div class="mnemonic-columns"><span>두문자</span><span>원문</span><span></span></div>
+        <div class="mnemonic-list" id="mnemonicList"></div>
+        <div class="quiz-order"><strong>퀴즈 공개 순서</strong>　주제 + 사례 → 두문자 → 전체 원문</div>
+      </section>
       <div class="save-state" id="saveState"></div>
       <section class="related" id="related" hidden><h3>같은 태그의 관련 쟁점</h3><div class="related-list" id="relatedList"></div></section>
     </div>
   </main>
 </div>
-<datalist id="types"><option>쟁점</option><option>학설대립</option><option>학설</option><option>판례</option><option>조문</option><option>요건</option><option>효과</option><option>결론</option><option>기타</option></datalist>
+<datalist id="types"><option>쟁점</option><option>학설대립</option><option>두문자</option><option>학설</option><option>판례</option><option>조문</option><option>요건</option><option>효과</option><option>결론</option><option>기타</option></datalist>
 <input id="fileIn" type="file" accept=".json,application/json" hidden>
 <dialog id="syncDlg">
   <h2>GitHub Gist 백업·복원</h2>
@@ -143,13 +152,19 @@ function normalizeTheoryDispute(value){
   const source=value&&typeof value==='object'?value:{},theories=(Array.isArray(source.theories)?source.theories:[]).map(normalizeTheory);while(theories.length<2)theories.push(normalizeTheory({},theories.length));
   return{theories,precedent:normalizeTextBlock(source.precedent),review:normalizeTextBlock(source.review)};
 }
+function normalizeMnemonicEntry(value={}){return{id:String(value?.id||uid()),cue:String(value?.cue||'').trim(),original:String(value?.original||'')}}
+function normalizeMnemonic(value){
+  const source=value&&typeof value==='object'?value:{},entries=(Array.isArray(source.entries)?source.entries:[]).map(normalizeMnemonicEntry);if(!entries.length)entries.push(normalizeMnemonicEntry());
+  return{scenario:normalizeTextBlock(source.scenario||{body:source.caseText}),entries};
+}
 function theoryText(item){const d=item.theoryDispute;if(!d)return'';return[...d.theories.flatMap(t=>[t.name,t.body,...t.keywords]),'판례의 태도',d.precedent.body,...d.precedent.keywords,'검토',d.review.body,...d.review.keywords].join(' ')}
-function itemBodyText(item){if(item.type!=='학설대립')return item.body;const d=item.theoryDispute;return[...d.theories.map(t=>t.body),d.precedent.body,d.review.body].map(v=>v.trim()).filter(Boolean).join(' ')}
-const textOf=item=>[item.title,item.body,theoryText(item),item.type,...item.tags,...(item.keywords||[])].join(' ').toLocaleLowerCase('ko');
+function mnemonicText(item){const m=item.mnemonic;if(!m)return'';return[m.scenario.body,...m.scenario.keywords,...m.entries.flatMap(entry=>[entry.cue,entry.original])].join(' ')}
+function itemBodyText(item){if(item.type==='학설대립'){const d=item.theoryDispute;return[...d.theories.map(t=>t.body),d.precedent.body,d.review.body].map(v=>v.trim()).filter(Boolean).join(' ')}if(item.type==='두문자'){const m=item.mnemonic;return[m.scenario.body,m.entries.map(entry=>entry.cue).filter(Boolean).join('')].map(v=>v.trim()).filter(Boolean).join(' · ')}return item.body}
+const textOf=item=>[item.title,item.body,theoryText(item),mnemonicText(item),item.type,...item.tags,...(item.keywords||[])].join(' ').toLocaleLowerCase('ko');
 
 function sampleDoc(){
   const civil=uid(),act=uid();
-  return{version:6,title:'법학 쟁점노트',updatedAt:now(),folders:[
+  return{version:7,title:'법학 쟁점노트',updatedAt:now(),folders:[
     {id:civil,name:'민법',parentId:null,createdAt:now()},
     {id:act,name:'법률행위',parentId:civil,createdAt:now()}
   ],items:[
@@ -157,7 +172,7 @@ function sampleDoc(){
     {id:uid(),title:'동기의 착오',type:'판례',folderId:act,tags:['민법','의사표시','착오'],keywordRanges:[{start:19,end:27,text:'법률행위의 내용'}],body:'판례는 동기가 상대방에게 표시되어 법률행위의 내용이 된 경우에 내용의 착오로서 취소할 수 있다고 본다.',star:false,createdAt:now(),updatedAt:now()}
   ]}
 }
-function normalizeItem(x){const body=String(x.body||''),keywordRanges=Array.isArray(x.keywordRanges)?normalizeKeywordRanges(body,x.keywordRanges):rangesFromLegacyKeywords(body,x.keywords),mappedType=String(x.type&&TYPE_MAP[x.type]||x.type||'쟁점'),type=x.format==='theory'?'학설대립':mappedType;const item={id:String(x.id||uid()),title:String(x.title??x.text??''),type,folderId:x.folderId?String(x.folderId):null,tags:cleanTags(x.tags),keywordRanges,keywords:[],body,theoryDispute:(x.theoryDispute||type==='학설대립')?normalizeTheoryDispute(x.theoryDispute):null,source:String(x.source||''),star:!!x.star,createdAt:+x.createdAt||now(),updatedAt:+x.updatedAt||now()};refreshKeywordData(item);return item}
+function normalizeItem(x){const body=String(x.body||''),keywordRanges=Array.isArray(x.keywordRanges)?normalizeKeywordRanges(body,x.keywordRanges):rangesFromLegacyKeywords(body,x.keywords),mappedType=String(x.type&&TYPE_MAP[x.type]||x.type||'쟁점'),type=x.format==='theory'?'학설대립':mappedType;const item={id:String(x.id||uid()),title:String(x.title??x.text??''),type,folderId:x.folderId?String(x.folderId):null,tags:cleanTags(x.tags),keywordRanges,keywords:[],body,theoryDispute:(x.theoryDispute||type==='학설대립')?normalizeTheoryDispute(x.theoryDispute):null,mnemonic:(x.mnemonic||type==='두문자')?normalizeMnemonic(x.mnemonic):null,source:String(x.source||''),star:!!x.star,createdAt:+x.createdAt||now(),updatedAt:+x.updatedAt||now()};refreshKeywordData(item);return item}
 function normalizeFolder(x){return{id:String(x.id||uid()),name:String(x.name||'새 폴더').trim()||'새 폴더',parentId:x.parentId?String(x.parentId):null,createdAt:+x.createdAt||now()}}
 function ensureFolderPath(folders,names){
   let parentId=null;
@@ -181,7 +196,7 @@ function normalizeDoc(d){
   const ids=new Set(folders.map(f=>f.id));
   for(const folder of folders)if(folder.parentId&&!ids.has(folder.parentId))folder.parentId=null;
   for(const item of items)if(item.folderId&&!ids.has(item.folderId))item.folderId=null;
-  return{version:6,title:String(d.title||'법학 쟁점노트'),updatedAt:+d.updatedAt||now(),folders,items};
+  return{version:7,title:String(d.title||'법학 쟁점노트'),updatedAt:+d.updatedAt||now(),folders,items};
 }
 function migrateTree(d){
   const items=[],folders=[];
@@ -202,7 +217,7 @@ function migrateTree(d){
     }
   }
   walk(d.tree);
-  return{version:6,title:String(d.title||'법학 쟁점노트').replace('트리','쟁점'),updatedAt:+d.updatedAt||now(),folders,items};
+  return{version:7,title:String(d.title||'법학 쟁점노트').replace('트리','쟁점'),updatedAt:+d.updatedAt||now(),folders,items};
 }
 function parseDoc(raw){
   const d=typeof raw==='string'?JSON.parse(raw):raw;
@@ -221,7 +236,7 @@ let saveTimer=null;
 const app=$('#app'),listEl=$('#list'),countEl=$('#count');
 
 function saveCfg(){localStorage.setItem(LS_CFG,JSON.stringify(cfg))}
-function saveNow(){clearTimeout(saveTimer);saveTimer=null;doc.version=6;for(const item of doc.items){refreshKeywordData(item);if(item.theoryDispute){for(const theory of item.theoryDispute.theories)refreshKeywordData(theory);refreshKeywordData(item.theoryDispute.precedent);refreshKeywordData(item.theoryDispute.review)}}doc.updatedAt=now();localStorage.setItem(LS_DOC,JSON.stringify(doc));$('#saveState').textContent='저장됨'}
+function saveNow(){clearTimeout(saveTimer);saveTimer=null;doc.version=7;for(const item of doc.items){refreshKeywordData(item);if(item.theoryDispute){for(const theory of item.theoryDispute.theories)refreshKeywordData(theory);refreshKeywordData(item.theoryDispute.precedent);refreshKeywordData(item.theoryDispute.review)}if(item.mnemonic)refreshKeywordData(item.mnemonic.scenario)}doc.updatedAt=now();localStorage.setItem(LS_DOC,JSON.stringify(doc));$('#saveState').textContent='저장됨'}
 function scheduleSave(){doc.updatedAt=now();$('#saveState').textContent='저장 중…';clearTimeout(saveTimer);saveTimer=setTimeout(saveNow,350)}
 addEventListener('beforeunload',()=>{if(saveTimer)saveNow()});
 function selected(){return doc.items.find(x=>x.id===selectedId)}
@@ -349,7 +364,7 @@ function addTag(value){
 function removeTag(tag){const x=selected();if(!x)return;updateSelected('tags',x.tags.filter(t=>t!==tag));renderTagPicker()}
 const highlightResizeObserver='ResizeObserver'in window?new ResizeObserver(entries=>entries.forEach(entry=>syncHighlightLayer(entry.target))):null;
 function contentTarget(field){
-  const x=selected();if(!x)return null;const kind=field.dataset.contentKind;if(kind==='general')return x;if(kind==='theory')return x.theoryDispute.theories.find(t=>t.id===field.dataset.theoryId)||null;if(kind==='precedent')return x.theoryDispute.precedent;if(kind==='review')return x.theoryDispute.review;return null;
+  const x=selected();if(!x)return null;const kind=field.dataset.contentKind;if(kind==='general')return x;if(kind==='theory')return x.theoryDispute.theories.find(t=>t.id===field.dataset.theoryId)||null;if(kind==='precedent')return x.theoryDispute.precedent;if(kind==='review')return x.theoryDispute.review;if(kind==='mnemonic-scenario')return x.mnemonic.scenario;return null;
 }
 function renderFieldHighlight(field){
   const target=contentTarget(field),layer=field.parentElement.querySelector('.body-highlights');if(!target||!layer)return;refreshKeywordData(target);let at=0,html='';for(const range of target.keywordRanges){html+=esc(target.body.slice(at,range.start))+'<mark>'+esc(target.body.slice(range.start,range.end))+'</mark>';at=range.end}html+=esc(target.body.slice(at));if(target.body.endsWith('\n'))html+=' ';layer.innerHTML=html;syncHighlightLayer(field);
@@ -359,8 +374,8 @@ function wireHighlightField(field){
   field.oninput=e=>updateTextContent(field,e.target.value);field.onscroll=()=>syncHighlightLayer(field);field.oncontextmenu=e=>{if(field.selectionStart!==field.selectionEnd){e.preventDefault();toggleSelectedHighlight(field)}};field.onkeydown=e=>{if(e.ctrlKey&&!e.altKey&&!e.shiftKey&&e.key.toLocaleLowerCase()==='h'){e.preventDefault();toggleSelectedHighlight(field)}};highlightResizeObserver?.observe(field);renderFieldHighlight(field);
 }
 function renderIssueContent(){
-  const x=selected(),theoryMode=x.type==='학설대립';highlightResizeObserver?.disconnect();$('#generalContent').hidden=theoryMode;$('#theoryContent').hidden=!theoryMode;
-  if(theoryMode)renderTheoryContent();else{const field=$('#bodyField');field.value=x.body;wireHighlightField(field)}
+  const x=selected(),theoryMode=x.type==='학설대립',mnemonicMode=x.type==='두문자';highlightResizeObserver?.disconnect();$('#generalContent').hidden=theoryMode||mnemonicMode;$('#theoryContent').hidden=!theoryMode;$('#mnemonicContent').hidden=!mnemonicMode;
+  if(theoryMode)renderTheoryContent();else if(mnemonicMode)renderMnemonicContent();else{const field=$('#bodyField');field.value=x.body;wireHighlightField(field)}
 }
 function renderTheoryContent(){
   highlightResizeObserver?.disconnect();const x=selected(),d=x.theoryDispute,list=$('#theoryList');
@@ -370,9 +385,19 @@ function renderTheoryContent(){
   const precedent=$('#theoryContent [data-content-kind="precedent"]'),review=$('#theoryContent [data-content-kind="review"]');precedent.value=d.precedent.body;review.value=d.review.body;
   $('#theoryContent').querySelectorAll('.highlight-field').forEach(wireHighlightField);
 }
-function setIssueType(type){const x=selected();if(!x)return;x.type=type;if(type==='학설대립'&&!x.theoryDispute)x.theoryDispute=normalizeTheoryDispute();x.updatedAt=now();scheduleSave();renderIssueContent();renderList()}
+function renderMnemonicPreview(){const x=selected();if(!x?.mnemonic)return;$('#mnemonicPreview').textContent=x.mnemonic.entries.map(entry=>entry.cue).filter(Boolean).join('')||'—'}
+function renderMnemonicContent(){
+  highlightResizeObserver?.disconnect();const x=selected(),m=x.mnemonic,list=$('#mnemonicList'),scenario=$('#mnemonicContent [data-content-kind="mnemonic-scenario"]');scenario.value=m.scenario.body;wireHighlightField(scenario);
+  list.innerHTML=m.entries.map(entry=>'<div class="mnemonic-row"><input class="field mnemonic-cue" data-mnemonic-cue="'+esc(entry.id)+'" value="'+esc(entry.cue)+'" aria-label="두문자" placeholder="예: ㄷ 또는 사실"><input class="field" data-mnemonic-original="'+esc(entry.id)+'" value="'+esc(entry.original)+'" aria-label="두문자 원문" placeholder="예: 다른 것들과 구별">'+(m.entries.length>1?'<button class="mnemonic-remove" type="button" data-remove-mnemonic="'+esc(entry.id)+'" aria-label="항목 삭제">×</button>':'<span></span>')+'</div>').join('');
+  list.querySelectorAll('[data-mnemonic-cue]').forEach(field=>field.oninput=()=>{const entry=m.entries.find(value=>value.id===field.dataset.mnemonicCue);if(!entry)return;entry.cue=field.value;x.updatedAt=now();scheduleSave();renderMnemonicPreview();renderList()});
+  list.querySelectorAll('[data-mnemonic-original]').forEach(field=>{field.oninput=()=>{const entry=m.entries.find(value=>value.id===field.dataset.mnemonicOriginal);if(!entry)return;entry.original=field.value;x.updatedAt=now();scheduleSave();renderList()};field.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addMnemonicEntry()}}});
+  list.querySelectorAll('[data-remove-mnemonic]').forEach(button=>button.onclick=()=>removeMnemonicEntry(button.dataset.removeMnemonic));renderMnemonicPreview();
+}
+function setIssueType(type){const x=selected();if(!x)return;x.type=type;if(type==='학설대립'&&!x.theoryDispute)x.theoryDispute=normalizeTheoryDispute();if(type==='두문자'&&!x.mnemonic)x.mnemonic=normalizeMnemonic();x.updatedAt=now();scheduleSave();renderIssueContent();renderList()}
 function addTheory(){const x=selected();if(!x)return;const theory=normalizeTheory({name:nextAddedTheoryName(x.theoryDispute.theories)},x.theoryDispute.theories.length);x.theoryDispute.theories.push(theory);x.updatedAt=now();scheduleSave();renderTheoryContent();renderList();const field=[...document.querySelectorAll('[data-theory-name]')].find(el=>el.dataset.theoryName===theory.id);field?.focus();field?.select()}
 function removeTheory(id){const x=selected(),index=x?.theoryDispute.theories.findIndex(t=>t.id===id)??-1;if(!x||index<2)return;const theory=x.theoryDispute.theories[index];if(theory.body.trim()&&!confirm('“'+theory.name+'”의 내용을 포함해 삭제할까요?'))return;x.theoryDispute.theories.splice(index,1);x.updatedAt=now();scheduleSave();renderTheoryContent();renderList()}
+function addMnemonicEntry(){const x=selected();if(!x?.mnemonic)return;const entry=normalizeMnemonicEntry();x.mnemonic.entries.push(entry);x.updatedAt=now();scheduleSave();renderMnemonicContent();renderList();const field=[...document.querySelectorAll('[data-mnemonic-cue]')].find(el=>el.dataset.mnemonicCue===entry.id);field?.focus()}
+function removeMnemonicEntry(id){const x=selected(),m=x?.mnemonic,index=m?.entries.findIndex(entry=>entry.id===id)??-1;if(!x||!m||index<0||m.entries.length<=1)return;const entry=m.entries[index];if((entry.cue||entry.original.trim())&&!confirm('이 두문자 항목을 삭제할까요?'))return;m.entries.splice(index,1);x.updatedAt=now();scheduleSave();renderMnemonicContent();renderList()}
 function transformKeywordRanges(ranges,start,oldEnd,newEnd){
   const delta=newEnd-oldEnd,out=[];for(const r of ranges){if(r.end<=start)out.push({start:r.start,end:r.end});else if(r.start>=oldEnd)out.push({start:r.start+delta,end:r.end+delta});else{if(r.start<start)out.push({start:r.start,end:start});if(r.end>oldEnd)out.push({start:newEnd,end:r.end+delta})}}return out;
 }
@@ -409,6 +434,7 @@ $('#tagsField').onkeydown=e=>{
   else if(e.key==='Escape'){tagPickerOpen=false;renderTagPicker();e.target.blur()}
 };
 $('#addTheoryBtn').onclick=addTheory;
+$('#addMnemonicBtn').onclick=addMnemonicEntry;
 $('#starBtn').onclick=()=>{const x=selected();x.star=!x.star;x.updatedAt=now();scheduleSave();render()};
 $('#deleteBtn').onclick=()=>{const x=selected();if(!x||!confirm('“'+(x.title||'제목 없음')+'”을 삭제할까요?'))return;doc.items=doc.items.filter(y=>y.id!==x.id);selectedId=null;scheduleSave();app.classList.remove('editing');render()};
 $('#saveFolder').onclick=saveFolderDialog;
