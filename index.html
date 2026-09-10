@@ -72,7 +72,7 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
         <button class="icon-btn danger" id="deleteBtn" title="삭제">삭제</button>
       </div>
       <div class="meta-grid">
-        <label><span class="label">유형</span><input class="field" id="typeField" list="types" placeholder="예: 쟁점, 학설대립, 판례"></label>
+        <label><span class="label">유형</span><select class="field" id="typeField"><option>쟁점</option><option>학설대립</option><option>두문자</option><option>학설</option><option>판례</option><option>조문</option><option>요건</option><option>효과</option><option>결론</option><option>일반</option><option>기타</option></select></label>
         <div class="folder-field-wrap" id="folderFieldWrap">
           <span class="label">폴더</span>
           <button class="field folder-picker-trigger" id="folderField" type="button" aria-expanded="false"><span id="folderFieldLabel">미분류</span><span>▾</span></button>
@@ -109,7 +109,6 @@ dialog{margin:auto;border:1px solid var(--line);background:var(--panel);color:va
     </div>
   </main>
 </div>
-<datalist id="types"><option>쟁점</option><option>학설대립</option><option>두문자</option><option>학설</option><option>판례</option><option>조문</option><option>요건</option><option>효과</option><option>결론</option><option>기타</option></datalist>
 <input id="fileIn" type="file" accept=".json,application/json" hidden>
 <dialog id="syncDlg">
   <h2>GitHub Gist 백업·복원</h2>
@@ -333,7 +332,8 @@ function renderList(){
 }
 function renderEditor(){
   const x=selected();$('#blank').hidden=!!x;$('#editorInner').hidden=!x;if(!x)return;
-  $('#titleField').value=x.title;$('#typeField').value=x.type;$('#folderFieldLabel').textContent=x.folderId?viewName(x.folderId):'미분류';$('#folderPicker').hidden=true;$('#folderField').setAttribute('aria-expanded','false');$('#tagsField').value='';$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();renderIssueContent();
+  const typeField=$('#typeField');typeField.querySelector('[data-custom-type]')?.remove();if(![...typeField.options].some(option=>option.value===x.type)){const option=document.createElement('option');option.value=x.type;option.textContent=x.type;option.dataset.customType='';typeField.append(option)}
+  $('#titleField').value=x.title;typeField.value=x.type;$('#folderFieldLabel').textContent=x.folderId?viewName(x.folderId):'미분류';$('#folderPicker').hidden=true;$('#folderField').setAttribute('aria-expanded','false');$('#tagsField').value='';$('#starBtn').textContent=x.star?'★':'☆';$('#starBtn').classList.toggle('on',x.star);renderTagPicker();renderIssueContent();
   const related=doc.items.filter(y=>y.id!==x.id&&y.tags.some(t=>x.tags.includes(t))).map(y=>({y,score:y.tags.filter(t=>x.tags.includes(t)).length})).sort((a,b)=>b.score-a.score||b.y.updatedAt-a.y.updatedAt).slice(0,8);
   $('#related').hidden=!related.length;$('#relatedList').innerHTML=related.map(({y,score})=>'<button data-id="'+esc(y.id)+'">'+esc(y.title||'제목 없음')+' <span class="type">'+score+'개 태그</span></button>').join('');
   $('#relatedList').querySelectorAll('button').forEach(b=>b.onclick=()=>openItem(b.dataset.id));
